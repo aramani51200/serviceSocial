@@ -1,0 +1,452 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+
+      <div class="breadcrumb">
+
+        <a routerLink="/deces/dashboard">
+          Décès
+        </a>
+
+        <span>/</span>
+
+        <a routerLink="/deces/dossiers">
+          Dossiers
+        </a>
+
+        <span>/</span>
+
+        <span class="current">
+          Nouveau dossier
+        </span>
+
+      </div>
+
+      <h1>
+        Nouveau dossier de décès
+      </h1>
+
+      <p>
+        Création d'un nouveau dossier concernant un adhérent décédé
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-back"
+      routerLink="/deces/dossiers">
+
+      ← Retour
+
+    </button>
+
+  </div>
+
+
+  <!-- FORM -->
+  <form
+    class="form-card"
+    (ngSubmit)="enregistrer()">
+
+
+    <!-- ================================================= -->
+    <!-- 01 - ADHERENT -->
+    <!-- ================================================= -->
+
+    <div class="form-section">
+
+      <div class="section-header">
+
+
+        <div>
+
+          <h2>
+            Informations de l'adhérent
+          </h2>
+
+          <p>
+            Rechercher l'adhérent par CIN ou matricule
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- SEARCH -->
+
+      <div class="form-group">
+
+        <label>
+          Adhérent
+          <span>*</span>
+        </label>
+
+
+        <div class="search-input-wrapper">
+
+          <input
+            type="text"
+            name="rechercheAdherent"
+            [(ngModel)]="rechercheAdherent"
+            (input)="rechercherAdherent()"
+            placeholder="CIN ou matricule..."
+            autocomplete="off"
+            required
+          />
+
+
+          @if (adherentSelectionne) {
+
+            <button
+              type="button"
+              class="clear-adherent"
+              (click)="changerAdherent()">
+
+              ×
+
+            </button>
+
+          }
+
+        </div>
+
+
+        <!-- RESULTATS -->
+
+        @if (
+          resultatsRecherche.length > 0 &&
+          !adherentSelectionne
+        ) {
+
+          <div class="search-results">
+
+            @for (
+              adherent of resultatsRecherche;
+              track adherent.id
+            ) {
+
+              <button
+                type="button"
+                class="search-result"
+                (click)="selectionnerAdherent(adherent)"
+              >
+
+                <span class="result-name">
+
+                  {{ adherent.nom }}
+                  {{ adherent.prenom }}
+
+                </span>
+
+                <span class="result-info">
+
+                  CIN: {{ adherent.cin }}
+
+                  &nbsp; | &nbsp;
+
+                  Matricule: {{ adherent.matricule }}
+
+                </span>
+
+              </button>
+
+            }
+
+          </div>
+
+        }
+
+
+        <!-- SELECTED -->
+
+        @if (adherentSelectionne) {
+
+          <div class="selected-adherent">
+
+            ✓
+            {{ adherentSelectionne.nom }}
+            {{ adherentSelectionne.prenom }}
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- NOM -->
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>
+            Nom et prénom
+          </label>
+
+          <input
+            type="text"
+            name="nomComplet"
+            [(ngModel)]="dossier.nomComplet"
+            readonly
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- 02 - DECES -->
+    <!-- ================================================= -->
+
+    <div class="form-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Informations du décès
+          </h2>
+
+          <p>
+            Informations relatives au décès
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+          <label>
+            Date de décès
+            <span>*</span>
+          </label>
+
+          <input
+            type="date"
+            name="dateDeces"
+            [(ngModel)]="dossier.dateDeces"
+            required
+          >
+
+        </div>
+
+
+        <!-- LIEU -->
+
+        <div class="form-group">
+
+          <label>
+            Lieu de décès
+            <span>*</span>
+          </label>
+
+          <input
+            type="text"
+            name="lieuDeces"
+            [(ngModel)]="dossier.lieuDeces"
+            placeholder="Ville / établissement"
+            required
+          >
+
+        </div>
+
+
+        <!-- NATURE -->
+
+        <div class="form-group">
+
+          <label>
+            Nature du décès
+          </label>
+
+          <select
+            name="natureDeces"
+            [(ngModel)]="dossier.natureDeces">
+
+            <option value="">
+              Sélectionner
+            </option>
+
+            <option value="Naturelle">
+              Naturelle
+            </option>
+
+            <option value="Accidentelle">
+              Accidentelle
+            </option>
+
+            <option value="Maladie">
+              Maladie
+            </option>
+
+            <option value="Autre">
+              Autre
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- CAUSE -->
+
+        <div class="form-group">
+
+          <label>
+            Cause du décès
+          </label>
+
+          <input
+            type="text"
+            name="causeDeces"
+            [(ngModel)]="dossier.causeDeces"
+            placeholder="Cause du décès"
+          >
+
+        </div>
+
+
+        <!-- DPR -->
+
+        <div class="form-group">
+
+          <label>
+            DPR
+          </label>
+
+          <input
+            type="text"
+            name="dpr"
+            [(ngModel)]="dossier.dpr"
+            placeholder="DPR"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- 03 - OBSERVATION -->
+    <!-- ================================================= -->
+
+    <div class="form-section">
+
+      <div class="section-header">
+
+        <div class="section-number">
+          03
+        </div>
+
+        <div>
+
+          <h2>
+            Observations
+          </h2>
+
+          <p>
+            Informations complémentaires
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Observation
+        </label>
+
+        <textarea
+          name="observation"
+          [(ngModel)]="dossier.observation"
+          rows="5"
+          placeholder="Ajouter une observation..."
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- STATUS -->
+    <!-- ================================================= -->
+
+    <div class="status-info">
+
+      <div class="status-icon">
+        !
+      </div>
+
+      <div>
+
+        <strong>
+          Statut initial
+        </strong>
+
+        <p>
+          Après création, le dossier sera placé automatiquement
+          dans l'état <b>En cours</b>.
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- ACTIONS -->
+    <!-- ================================================= -->
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="btn-cancel"
+        (click)="annuler()">
+
+        Annuler
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="btn-save">
+
+        Enregistrer le dossier
+
+      </button>
+
+    </div>
+
+
+  </form>
+
+</div>

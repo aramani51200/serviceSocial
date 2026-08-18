@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e5eaf0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   LEFT / RIGHT TEXT
+========================================= */
+
+.footer span {
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .footer {
+    padding: 0 15px;
+
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 4px;
+
+    min-height: 65px;
+  }
+
+}

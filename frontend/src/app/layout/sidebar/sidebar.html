@@ -1,0 +1,250 @@
+<aside class="sidebar">
+
+  <!-- LOGO -->
+
+  <div class="sidebar-logo">
+
+
+<div class="logo">
+  SS
+</div>
+
+<div>
+  <strong>Service Social</strong>
+  <span>Administration</span>
+</div>
+
+
+  </div>
+
+  <nav class="sidebar-menu">
+
+
+<!-- ========================= -->
+<!-- GENERAL -->
+<!-- ========================= -->
+
+<div class="menu-title">
+  GÉNÉRAL
+</div>
+
+
+<!-- DASHBOARD -->
+<a
+  routerLink="/dashboard"
+  routerLinkActive="active"
+  class="menu-item"
+>
+  <span>▦</span>
+  <span>Dashboard</span>
+</a>
+
+
+<!-- ========================= -->
+<!-- SUPER ADMIN -->
+<!-- ========================= -->
+
+@if (isSuperAdmin()) {
+
+  <div class="menu-title">
+    ADMINISTRATION
+  </div>
+
+  <a
+    routerLink="/admin"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>⚙</span>
+    <span>Administration</span>
+  </a>
+
+
+  <a
+    routerLink="/adherents"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>👤</span>
+    <span>Adhérents</span>
+  </a>
+
+}
+
+
+<!-- ========================= -->
+<!-- SECTIONS -->
+<!-- ========================= -->
+
+@if (
+  isSuperAdmin() ||
+  isSection('BUREAU_ORDRE')
+) {
+
+  <div class="menu-title">
+    SECTIONS
+  </div>
+
+  <a
+    routerLink="/bureau-ordre"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>📥</span>
+    <span>Bureau d'ordre</span>
+  </a>
+
+}
+
+
+@if (
+  isSuperAdmin() ||
+  isSection('MUTUELLE')
+) {
+
+  <a
+    routerLink="/mutuelle"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>🏥</span>
+    <span>Mutuelle</span>
+  </a>
+
+}
+
+
+@if (
+  isSuperAdmin() ||
+  isSection('ASSISTANCE')
+) {
+
+  <a
+    routerLink="/assistance"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>🤝</span>
+    <span>Assistance sociale</span>
+  </a>
+
+}
+
+
+@if (
+  isSuperAdmin() ||
+  isSection('RETRAITES')
+) {
+
+  <a
+    routerLink="/retraites"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>👴</span>
+    <span>Retraités</span>
+  </a>
+
+}
+
+
+@if (authService.hasSection('DECES')) {
+
+  <a
+    routerLink="/deces/dashboard"
+    routerLinkActive="active"
+    class="menu-item">
+
+    <span>⚰️</span>
+    <span>Décès</span>
+
+  </a>
+
+
+  <a
+    routerLink="/deces/dossiers"
+    routerLinkActive="active"
+    class="menu-item">
+
+    <span>📁</span>
+    <span>Dossiers de décès</span>
+
+  </a>
+
+
+  <a
+    routerLink="/deces/ayants-droit"
+    routerLinkActive="active"
+    class="menu-item">
+
+    <span>👥</span>
+    <span>Ayants droit</span>
+
+  </a>
+
+
+  <a
+    routerLink="/deces/demandes"
+    routerLinkActive="active"
+    class="menu-item">
+
+    <span>📋</span>
+    <span>Demandes</span>
+
+  </a>
+
+<a routerLink="/deces/pieces-justificatives" routerLinkActive="active"
+    class="menu-item">
+  <span>📄</span>
+  <span>Pièces justificatives</span>
+</a>
+
+  <a
+    routerLink="/deces/validation"
+    routerLinkActive="active"
+    class="menu-item">
+
+    <span>✓</span>
+    <span>Validation</span>
+
+  </a>
+
+}
+
+@if (
+  isSuperAdmin() ||
+  isSection('ASSURANCE')
+) {
+
+  <a
+    routerLink="/assurance"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>🛡</span>
+    <span>Assurance</span>
+  </a>
+
+}
+
+
+@if (
+  isSuperAdmin() ||
+  isSection('CULTURE')
+) {
+
+  <a
+    routerLink="/culture"
+    routerLinkActive="active"
+    class="menu-item"
+  >
+    <span>🎭</span>
+    <span>Culture & Loisirs</span>
+  </a>
+
+}
+
+
+  </nav>
+
+</aside>

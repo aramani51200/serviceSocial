@@ -1,0 +1,116 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* =========================================
+   APP LAYOUT
+========================================= */
+
+.app-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+
+  background: #f5f7fa;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+
+  width: calc(100% - 260px);
+  min-height: 100vh;
+
+  margin-left: 260px;
+
+  background: #f5f7fa;
+
+  transition:
+    margin-left 0.25s ease,
+    width 0.25s ease;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.content {
+  flex: 1;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 25px 30px;
+
+  background: #f5f7fa;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .main-container {
+    width: calc(100% - 220px);
+
+    margin-left: 220px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .main-container {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+}
+:host {
+  display: block;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+
+  background: #f5f7fa;
+}
+
+.main-container {
+  width: calc(100% - 260px);
+  min-height: 100vh;
+
+  margin-left: 260px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+
+  padding: 25px 30px;
+
+  box-sizing: border-box;
+}

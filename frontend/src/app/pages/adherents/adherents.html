@@ -1,0 +1,1596 @@
+<div class="adherents-page">
+
+  <!-- ========================================================= -->
+  <!-- HEADER -->
+  <!-- ========================================================= -->
+
+  <header class="page-header">
+
+    <div class="header-left">
+
+      <div class="breadcrumb">
+        <a routerLink="/dashboard">Dashboard</a>
+        <span>/</span>
+        <span>Adhérents</span>
+      </div>
+
+      <h1>Gestion des adhérents</h1>
+
+      <p>
+        Gestion et suivi des informations des adhérents
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-primary"
+      (click)="openAddForm()"
+      [disabled]="loading"
+    >
+      <span class="btn-icon">+</span>
+      Nouvel adhérent
+    </button>
+
+  </header>
+
+
+  <!-- ========================================================= -->
+  <!-- ERROR -->
+  <!-- ========================================================= -->
+
+  <div
+    class="alert alert-error"
+    *ngIf="errorMessage"
+  >
+
+    <div class="alert-content">
+      <span class="alert-icon">⚠</span>
+
+      <span>
+        {{ errorMessage }}
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="alert-button"
+      (click)="loadAdherents()"
+    >
+      Réessayer
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- SUCCESS -->
+  <!-- ========================================================= -->
+
+  <div
+    class="alert alert-success"
+    *ngIf="successMessage"
+  >
+
+    <div class="alert-content">
+      <span class="alert-icon">✓</span>
+
+      <span>
+        {{ successMessage }}
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="alert-close"
+      (click)="successMessage = ''"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- STATISTICS -->
+  <!-- ========================================================= -->
+
+  <section class="stats-grid">
+
+    <!-- TOTAL -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon blue">
+        👥
+      </div>
+
+      <div class="stat-content">
+
+        <span class="stat-label">
+          Total adhérents
+        </span>
+
+        <strong class="stat-value">
+          {{ totalAdherents }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- ACTIFS -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon green">
+        ✓
+      </div>
+
+      <div class="stat-content">
+
+        <span class="stat-label">
+          Actifs
+        </span>
+
+        <strong class="stat-value">
+          {{ actifs }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- RETRAITES -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon orange">
+        ◷
+      </div>
+
+      <div class="stat-content">
+
+        <span class="stat-label">
+          Retraités
+        </span>
+
+        <strong class="stat-value">
+          {{ retraites }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- PENSIONNES -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon purple">
+        💳
+      </div>
+
+      <div class="stat-content">
+
+        <span class="stat-label">
+          Pensionnés
+        </span>
+
+        <strong class="stat-value">
+          {{ pensionnes }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================================================= -->
+
+  <section class="content-card">
+
+
+    <!-- ======================================================= -->
+    <!-- TOOLBAR -->
+    <!-- ======================================================= -->
+
+    <div class="toolbar">
+
+      <!-- SEARCH -->
+
+      <div class="search-box">
+
+        <span class="search-icon">
+          🔎
+        </span>
+
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          placeholder="Rechercher par nom, matricule ou CIN..."
+        >
+
+        <button
+          type="button"
+          class="clear-search"
+          *ngIf="searchTerm"
+          (click)="searchTerm = ''; onSearch()"
+          title="Effacer"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- FILTERS -->
+
+      <div class="filters">
+
+        <!-- CATEGORIE -->
+
+        <select
+          [(ngModel)]="selectedCategorie"
+          (change)="onSearch()"
+        >
+
+          <option value="">
+            Toutes les catégories
+          </option>
+
+          <option value="Militaire">
+            Militaire
+          </option>
+
+          <option value="Retraité">
+            Retraité
+          </option>
+
+        </select>
+
+
+        <!-- SITUATION -->
+
+        <select
+          [(ngModel)]="selectedSituation"
+          (change)="onSearch()"
+        >
+
+          <option value="">
+            Toutes les situations
+          </option>
+
+          <option value="Actif">
+            Actif
+          </option>
+
+          <option value="Retraité">
+            Retraité
+          </option>
+
+        </select>
+
+
+        <!-- RESET -->
+
+        <button
+          type="button"
+          class="btn-reset"
+          (click)="resetFilters()"
+        >
+          Réinitialiser
+        </button>
+
+
+        <!-- REFRESH -->
+
+        <button
+          type="button"
+          class="btn-refresh"
+          (click)="refresh()"
+          [disabled]="loading"
+          title="Actualiser"
+        >
+
+          <span [class.rotating]="loading">
+            ↻
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- RESULT BAR -->
+    <!-- ======================================================= -->
+
+    <div class="result-bar">
+
+      <div class="result-count">
+
+        <strong>
+          {{ totalElements }}
+        </strong>
+
+        <span>
+          adhérent(s) trouvé(s)
+        </span>
+
+      </div>
+
+      <div
+        class="loading-indicator"
+        *ngIf="loading"
+      >
+
+        <span class="mini-spinner"></span>
+
+        Chargement...
+
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- INITIAL LOADING -->
+    <!-- ======================================================= -->
+
+    <div
+      class="loading-container"
+      *ngIf="loading && adherents.length === 0"
+    >
+
+      <div class="spinner"></div>
+
+      <h3>
+        Chargement des adhérents
+      </h3>
+
+      <p>
+        Veuillez patienter...
+      </p>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- TABLE -->
+    <!-- ======================================================= -->
+
+    <div
+      class="table-wrapper"
+      *ngIf="!loading || adherents.length > 0"
+    >
+
+      <table>
+
+        <!-- ================================================= -->
+        <!-- HEADER -->
+        <!-- ================================================= -->
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Adhérent
+            </th>
+
+            <th>
+              Matricule
+            </th>
+
+            <th>
+              CIN
+            </th>
+
+            <th>
+              Catégorie
+            </th>
+
+            <th>
+              Grade
+            </th>
+
+            <th>
+              Téléphone
+            </th>
+
+            <th>
+              Situation
+            </th>
+
+            <th class="actions-column">
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <!-- ================================================= -->
+        <!-- BODY -->
+        <!-- ================================================= -->
+
+        <tbody>
+
+          <!-- ================================================= -->
+          <!-- ADHERENTS -->
+          <!-- ================================================= -->
+
+          <tr
+            *ngFor="
+              let adherent of adherents;
+              trackBy: trackById
+            "
+          >
+
+            <!-- ADHERENT -->
+
+            <td>
+
+              <div class="adherent-cell">
+
+                <div class="avatar">
+
+                  {{
+                    adherent.prenomAr
+                      ? adherent.prenomAr.charAt(0)
+                      : '?'
+                  }}
+
+                </div>
+
+                <div class="adherent-info">
+
+                  <strong>
+                    {{ adherent.prenomAr }}
+                    {{ adherent.nomAr }}
+                  </strong>
+
+                  <small>
+                    ID #{{ adherent.id }}
+                  </small>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <!-- MATRICULE -->
+
+            <td>
+
+              <span class="matricule">
+                {{ adherent.matricule || '-' }}
+              </span>
+
+            </td>
+
+
+            <!-- CIN -->
+
+            <td>
+              {{ adherent.cin || '-' }}
+            </td>
+
+
+            <!-- CATEGORIE -->
+
+            <td>
+              {{ adherent.categorie || '-' }}
+            </td>
+
+
+            <!-- GRADE -->
+
+            <td>
+              {{ adherent.grade || '-' }}
+            </td>
+
+
+            <!-- TELEPHONE -->
+
+            <td>
+              {{ adherent.telephone1 || '-' }}
+            </td>
+
+
+            <!-- SITUATION -->
+
+            <td>
+
+              <span
+                class="status"
+                [class.status-active]="
+                  adherent.situationCategorie === 'Actif'
+                "
+                [class.status-retired]="
+                  adherent.situationCategorie === 'Retraité'
+                "
+              >
+
+                {{ adherent.situationCategorie || '-' }}
+
+              </span>
+
+            </td>
+
+
+            <!-- ACTIONS -->
+
+            <td>
+
+              <div class="actions">
+
+                <!-- VIEW -->
+
+                <button
+                  type="button"
+                  class="action-btn view"
+                  title="Voir les détails"
+                  (click)="openDetails(adherent)"
+                >
+                  👁
+                </button>
+
+
+                <!-- EDIT -->
+
+                <button
+                  type="button"
+                  class="action-btn edit"
+                  title="Modifier"
+                  (click)="openEditForm(adherent)"
+                >
+                  ✏
+                </button>
+
+
+                <!-- DELETE -->
+
+                <button
+                  type="button"
+                  class="action-btn delete"
+                  title="Supprimer"
+                  (click)="confirmDelete(adherent)"
+                >
+                  🗑
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+          <!-- ================================================= -->
+          <!-- EMPTY -->
+          <!-- ================================================= -->
+
+          <tr
+            *ngIf="
+              !loading &&
+              adherents.length === 0
+            "
+          >
+
+            <td
+              colspan="8"
+              class="empty"
+            >
+
+              <div class="empty-icon">
+                👥
+              </div>
+
+              <h3>
+                Aucun adhérent trouvé
+              </h3>
+
+              <p>
+                Aucun adhérent ne correspond aux critères de recherche.
+              </p>
+
+              <button
+                type="button"
+                class="btn-reset-empty"
+                (click)="resetFilters()"
+              >
+                Réinitialiser les filtres
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- PAGINATION -->
+    <!-- ======================================================= -->
+
+    <div
+      class="pagination"
+      *ngIf="
+        totalElements > 0 &&
+        totalPages > 0
+      "
+    >
+
+      <div class="pagination-info">
+
+        Page
+
+        <strong>
+          {{ currentPage + 1 }}
+        </strong>
+
+        sur
+
+        <strong>
+          {{ totalPages }}
+        </strong>
+
+      </div>
+
+
+      <div class="pagination-buttons">
+
+        <!-- PREVIOUS -->
+
+        <button
+          type="button"
+          [disabled]="
+            currentPage === 0 ||
+            loading
+          "
+          (click)="changePage(currentPage - 1)"
+        >
+          ‹
+        </button>
+
+
+        <!-- PAGES -->
+
+        <button
+          type="button"
+          *ngFor="let page of pages"
+          [class.active]="page === currentPage"
+          [disabled]="loading"
+          (click)="changePage(page)"
+        >
+          {{ page + 1 }}
+        </button>
+
+
+        <!-- NEXT -->
+
+        <button
+          type="button"
+          [disabled]="
+            currentPage >= totalPages - 1 ||
+            loading
+          "
+          (click)="changePage(currentPage + 1)"
+        >
+          ›
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ADD / EDIT MODAL -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+<div
+  class="modal-overlay"
+  *ngIf="showForm"
+>
+
+  <div class="modal large-modal">
+
+    <!-- HEADER -->
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          {{
+            editingAdherent
+              ? 'Modifier l’adhérent'
+              : 'Nouvel adhérent'
+          }}
+        </h2>
+
+        <p>
+          {{
+            editingAdherent
+              ? 'Modifier les informations de l’adhérent'
+              : 'Renseignez les informations de l’adhérent'
+          }}
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="close-btn"
+        (click)="closeForm()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form
+      class="form"
+      (ngSubmit)="saveAdherent()"
+    >
+
+
+      <!-- ================================================= -->
+      <!-- INFORMATIONS PERSONNELLES -->
+      <!-- ================================================= -->
+
+      <div class="form-section">
+
+        <h3>
+          Informations personnelles
+        </h3>
+
+        <div class="form-grid">
+
+          <!-- PRENOM -->
+
+          <div class="form-group">
+
+            <label>
+              Prénom arabe *
+            </label>
+
+            <input
+              type="text"
+              name="prenomAr"
+              [(ngModel)]="form.prenomAr"
+              required
+            >
+
+          </div>
+
+
+          <!-- NOM -->
+
+          <div class="form-group">
+
+            <label>
+              Nom arabe *
+            </label>
+
+            <input
+              type="text"
+              name="nomAr"
+              [(ngModel)]="form.nomAr"
+              required
+            >
+
+          </div>
+
+
+          <!-- CIN -->
+
+          <div class="form-group">
+
+            <label>
+              CIN *
+            </label>
+
+            <input
+              type="text"
+              name="cin"
+              [(ngModel)]="form.cin"
+              required
+            >
+
+          </div>
+
+
+          <!-- DATE NAISSANCE -->
+
+          <div class="form-group">
+
+            <label>
+              Date de naissance *
+            </label>
+
+            <input
+              type="date"
+              name="dateNaissance"
+              [(ngModel)]="form.dateNaissance"
+              required
+            >
+
+          </div>
+
+
+          <!-- LIEU NAISSANCE -->
+
+          <div class="form-group">
+
+            <label>
+              Lieu de naissance *
+            </label>
+
+            <input
+              type="text"
+              name="lieuNaissance"
+              [(ngModel)]="form.lieuNaissance"
+              required
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- INFORMATIONS PROFESSIONNELLES -->
+      <!-- ================================================= -->
+
+      <div class="form-section">
+
+        <h3>
+          Informations professionnelles
+        </h3>
+
+        <div class="form-grid">
+
+          <!-- CATEGORIE -->
+
+          <div class="form-group">
+
+            <label>
+              Catégorie *
+            </label>
+
+            <select
+              name="categorie"
+              [(ngModel)]="form.categorie"
+              required
+            >
+
+              <option value="">
+                Sélectionner
+              </option>
+
+              <option value="Militaire">
+                Militaire
+              </option>
+
+              <option value="Retraité">
+                Retraité
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- GRADE -->
+
+          <div class="form-group">
+
+            <label>
+              Grade *
+            </label>
+
+            <input
+              type="text"
+              name="grade"
+              [(ngModel)]="form.grade"
+              required
+            >
+
+          </div>
+
+
+          <!-- MATRICULE BR -->
+
+          <div class="form-group">
+
+            <label>
+              Matricule BR *
+            </label>
+
+            <input
+              type="text"
+              name="matriculeBR"
+              [(ngModel)]="form.matriculeBR"
+              required
+            >
+
+          </div>
+
+
+          <!-- MATRICULE -->
+
+          <div class="form-group">
+
+            <label>
+              Matricule *
+            </label>
+
+            <input
+              type="text"
+              name="matricule"
+              [(ngModel)]="form.matricule"
+              required
+            >
+
+          </div>
+
+
+          <!-- DERNIERE UNITE -->
+
+          <div class="form-group">
+
+            <label>
+              Dernière unité *
+            </label>
+
+            <input
+              type="text"
+              name="dernierUnite"
+              [(ngModel)]="form.dernierUnite"
+              required
+            >
+
+          </div>
+
+
+          <!-- FORMATION -->
+
+          <div class="form-group">
+
+            <label>
+              Formation / Unité *
+            </label>
+
+            <input
+              type="text"
+              name="formationUnite"
+              [(ngModel)]="form.formationUnite"
+              required
+            >
+
+          </div>
+
+
+          <!-- SITUATION -->
+
+          <div class="form-group">
+
+            <label>
+              Situation *
+            </label>
+
+            <select
+              name="situationCategorie"
+              [(ngModel)]="form.situationCategorie"
+              required
+            >
+
+              <option value="Actif">
+                Actif
+              </option>
+
+              <option value="Retraité">
+                Retraité
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- PENSION -->
+
+          <div class="form-group checkbox-group">
+
+            <label>
+
+              <input
+                type="checkbox"
+                name="pension"
+                [(ngModel)]="form.pension"
+              >
+
+              <span>
+                Pensionné
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- COORDONNEES -->
+      <!-- ================================================= -->
+
+      <div class="form-section">
+
+        <h3>
+          Coordonnées
+        </h3>
+
+        <div class="form-grid">
+
+          <!-- GSM 1 -->
+
+          <div class="form-group">
+
+            <label>
+              GSM 1 *
+            </label>
+
+            <input
+              type="tel"
+              name="telephone1"
+              [(ngModel)]="form.telephone1"
+              required
+            >
+
+          </div>
+
+
+          <!-- GSM 2 -->
+
+          <div class="form-group">
+
+            <label>
+              GSM 2
+            </label>
+
+            <input
+              type="tel"
+              name="telephone2"
+              [(ngModel)]="form.telephone2"
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label>
+              Email *
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="form.email"
+              required
+            >
+
+          </div>
+
+
+          <!-- ADRESSE -->
+
+          <div class="form-group full">
+
+            <label>
+              Adresse *
+            </label>
+
+            <textarea
+              name="adresse"
+              [(ngModel)]="form.adresse"
+              rows="3"
+              required
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- RADIATION / DECES -->
+      <!-- ================================================= -->
+
+      <div class="form-section">
+
+        <h3>
+          Radiation / Décès
+        </h3>
+
+        <div class="form-grid">
+
+          <!-- DATE RADIATION -->
+
+          <div class="form-group">
+
+            <label>
+              Date de radiation
+            </label>
+
+            <input
+              type="date"
+              name="dateRadiation"
+              [(ngModel)]="form.dateRadiation"
+            >
+
+          </div>
+
+
+          <!-- MOTIF -->
+
+          <div class="form-group">
+
+            <label>
+              Motif de radiation
+            </label>
+
+            <input
+              type="text"
+              name="motifRadiation"
+              [(ngModel)]="form.motifRadiation"
+            >
+
+          </div>
+
+
+          <!-- DATE DECES -->
+
+          <div class="form-group">
+
+            <label>
+              Date de décès
+            </label>
+
+            <input
+              type="date"
+              name="dateDeces"
+              [(ngModel)]="form.dateDeces"
+            >
+
+          </div>
+
+
+          <!-- CAUSE -->
+
+          <div class="form-group">
+
+            <label>
+              Cause du décès
+            </label>
+
+            <input
+              type="text"
+              name="causeDeces"
+              [(ngModel)]="form.causeDeces"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- FOOTER -->
+      <!-- ================================================= -->
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="closeForm()"
+          [disabled]="loading"
+        >
+          Annuler
+        </button>
+
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="loading"
+        >
+
+          <span
+            *ngIf="loading"
+            class="button-spinner"
+          ></span>
+
+          <span *ngIf="!loading">
+            {{
+              editingAdherent
+                ? 'Enregistrer les modifications'
+                : 'Ajouter l’adhérent'
+            }}
+          </span>
+
+          <span *ngIf="loading">
+            Enregistrement...
+          </span>
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- DETAILS MODAL -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+<div
+  class="modal-overlay"
+  *ngIf="showDetails && selectedAdherent"
+>
+
+  <div class="modal detail-modal">
+
+    <!-- HEADER -->
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          Détail de l’adhérent
+        </h2>
+
+        <p>
+          Informations complètes
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="close-btn"
+        (click)="closeDetails()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="detail-content">
+
+      <!-- PROFILE -->
+
+      <div class="profile">
+
+        <div class="profile-avatar">
+
+          {{
+            selectedAdherent!.prenomAr
+              ? selectedAdherent!.prenomAr.charAt(0)
+              : '?'
+          }}
+
+        </div>
+
+        <div>
+
+          <h3>
+            {{ selectedAdherent!.prenomAr }}
+            {{ selectedAdherent!.nomAr }}
+          </h3>
+
+          <span>
+            {{ selectedAdherent!.grade || '-' }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- DETAILS GRID -->
+
+      <div class="detail-grid">
+
+        <div>
+          <span>ID</span>
+          <strong>#{{ selectedAdherent!.id }}</strong>
+        </div>
+
+        <div>
+          <span>Matricule</span>
+          <strong>{{ selectedAdherent!.matricule || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Matricule BR</span>
+          <strong>{{ selectedAdherent!.matriculeBR || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>CIN</span>
+          <strong>{{ selectedAdherent!.cin || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Catégorie</span>
+          <strong>{{ selectedAdherent!.categorie || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Grade</span>
+          <strong>{{ selectedAdherent!.grade || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Date de naissance</span>
+          <strong>{{ selectedAdherent!.dateNaissance || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Lieu de naissance</span>
+          <strong>{{ selectedAdherent!.lieuNaissance || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Dernière unité</span>
+          <strong>{{ selectedAdherent!.dernierUnite || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Formation / Unité</span>
+          <strong>{{ selectedAdherent!.formationUnite || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>GSM 1</span>
+          <strong>{{ selectedAdherent!.telephone1 || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>GSM 2</span>
+          <strong>{{ selectedAdherent!.telephone2 || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Email</span>
+          <strong>{{ selectedAdherent!.email || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Situation</span>
+
+          <strong>
+
+            <span
+              class="status"
+              [class.status-active]="
+                selectedAdherent!.situationCategorie === 'Actif'
+              "
+              [class.status-retired]="
+                selectedAdherent!.situationCategorie === 'Retraité'
+              "
+            >
+              {{ selectedAdherent!.situationCategorie || '-' }}
+            </span>
+
+          </strong>
+
+        </div>
+
+        <div>
+          <span>Pension</span>
+
+          <strong>
+            {{
+              selectedAdherent!.pension
+                ? 'Oui'
+                : 'Non'
+            }}
+          </strong>
+
+        </div>
+
+        <div class="detail-full">
+          <span>Adresse</span>
+          <strong>{{ selectedAdherent!.adresse || '-' }}</strong>
+        </div>
+
+        <div>
+          <span>Date de radiation</span>
+          <strong>
+            {{ selectedAdherent!.dateRadiation || '-' }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Motif de radiation</span>
+          <strong>
+            {{ selectedAdherent!.motifRadiation || '-' }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Date de décès</span>
+          <strong>
+            {{ selectedAdherent!.dateDeces || '-' }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Cause du décès</span>
+          <strong>
+            {{ selectedAdherent!.causeDeces || '-' }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="modal-footer">
+
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="closeDetails()"
+      >
+        Fermer
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="
+          closeDetails();
+          openEditForm(selectedAdherent!)
+        "
+      >
+        Modifier
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- DELETE MODAL -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+<div
+  class="modal-overlay"
+  *ngIf="showDeleteConfirmation"
+>
+
+  <div class="modal delete-modal">
+
+    <div class="delete-icon">
+      !
+    </div>
+
+    <h2>
+      Supprimer l’adhérent ?
+    </h2>
+
+    <p>
+
+      Êtes-vous sûr de vouloir supprimer
+
+      <strong>
+        {{ adherentToDelete?.prenomAr }}
+        {{ adherentToDelete?.nomAr }}
+      </strong>
+
+      ?
+
+      <br>
+
+      Cette action est irréversible.
+
+    </p>
+
+    <div class="modal-footer">
+
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="closeDelete()"
+        [disabled]="loading"
+      >
+        Annuler
+      </button>
+
+      <button
+        type="button"
+        class="btn-danger"
+        (click)="deleteAdherent()"
+        [disabled]="loading"
+      >
+
+        <span *ngIf="!loading">
+          Supprimer
+        </span>
+
+        <span *ngIf="loading">
+          Suppression...
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

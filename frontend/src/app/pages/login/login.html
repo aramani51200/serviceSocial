@@ -1,0 +1,144 @@
+<div class="login-page">
+
+  <div class="login-card">
+
+
+<div class="logo">
+  SS
+</div>
+
+<h1>Service Social</h1>
+
+<p class="subtitle">
+  Connexion à votre espace
+</p>
+
+
+<form (ngSubmit)="login()">
+
+  <!-- USERNAME -->
+  <div class="form-group">
+
+    <label for="username">
+      Nom d'utilisateur
+    </label>
+
+    <input
+      id="username"
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Entrez votre nom d'utilisateur"
+      required
+    >
+
+  </div>
+
+
+  <!-- PASSWORD -->
+  <div class="form-group">
+
+    <label for="password">
+      Mot de passe
+    </label>
+
+    <input
+      id="password"
+      [type]="showPassword ? 'text' : 'password'"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Entrez votre mot de passe"
+      required
+    >
+
+  </div>
+
+
+  <!-- SHOW PASSWORD -->
+  <label class="show-password">
+
+    <input
+      type="checkbox"
+      (change)="showPassword = !showPassword"
+    >
+
+    Afficher le mot de passe
+
+  </label>
+
+
+  <!-- ERROR -->
+  @if (errorMessage) {
+
+    <div class="error">
+      {{ errorMessage }}
+    </div>
+
+  }
+
+
+  <!-- BUTTON -->
+  <button
+    type="submit"
+    [disabled]="loading"
+  >
+
+    {{ loading ? 'Connexion...' : 'Se connecter' }}
+
+  </button>
+
+</form>
+
+
+<!-- HOME -->
+<!-- <a
+  routerLink="/home"
+  class="back-home"
+>
+  ← Retour à l'accueil
+</a> -->
+
+
+<!-- TEST ACCOUNTS -->
+<div class="test-account">
+
+  <strong>Comptes de test</strong>
+
+  <span>
+    SUPER ADMIN : superadmin / 1234
+  </span>
+
+  <span>
+    Décès : deces / 1234
+  </span>
+
+  <span>
+    Mutuelle : mutuelle / 1234
+  </span>
+
+  <span>
+    Assistance : assistance / 1234
+  </span>
+
+  <span>
+    Assurance : assurance / 1234
+  </span>
+
+  <span>
+    Retraités : retraites / 1234
+  </span>
+
+  <span>
+    Culture : culture / 1234
+  </span>
+
+  <span>
+    Bureau : bureau / 1234
+  </span>
+
+</div>
+
+
+  </div>
+
+</div>
