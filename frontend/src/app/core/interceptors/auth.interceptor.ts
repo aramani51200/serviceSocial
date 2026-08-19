@@ -11,7 +11,7 @@ export const authInterceptor: HttpInterceptorFn =
       localStorage.getItem('token');
 
     if (!token) {
-      return next(req);
+      //return next(req);
     }
 
     const authReq = req.clone({

@@ -1,20 +1,30 @@
+
+
 <div class="adherents-page">
 
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
   <!-- HEADER -->
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
 
   <header class="page-header">
 
-    <div class="header-left">
+    <div>
 
       <div class="breadcrumb">
-        <a routerLink="/dashboard">Dashboard</a>
+
+        <a routerLink="/dashboard">
+          Dashboard
+        </a>
+
         <span>/</span>
+
         <span>Adhérents</span>
+
       </div>
 
-      <h1>Gestion des adhérents</h1>
+      <h1>
+        Gestion des adhérents
+      </h1>
 
       <p>
         Gestion et suivi des informations des adhérents
@@ -22,67 +32,42 @@
 
     </div>
 
+
     <button
       type="button"
       class="btn-primary"
       (click)="openAddForm()"
       [disabled]="loading"
     >
-      <span class="btn-icon">+</span>
+
+      <span class="plus">
+        +
+      </span>
+
       Nouvel adhérent
+
     </button>
 
   </header>
 
 
-  <!-- ========================================================= -->
-  <!-- ERROR -->
-  <!-- ========================================================= -->
-
-  <div
-    class="alert alert-error"
-    *ngIf="errorMessage"
-  >
-
-    <div class="alert-content">
-      <span class="alert-icon">⚠</span>
-
-      <span>
-        {{ errorMessage }}
-      </span>
-    </div>
-
-    <button
-      type="button"
-      class="alert-button"
-      (click)="loadAdherents()"
-    >
-      Réessayer
-    </button>
-
-  </div>
-
-
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
   <!-- SUCCESS -->
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
 
   <div
-    class="alert alert-success"
-    *ngIf="successMessage"
+    class="alert success"
+    *ngIf="successMessage!==null && successMessage !== ''"
   >
 
-    <div class="alert-content">
-      <span class="alert-icon">✓</span>
+    <span>✓</span>
 
-      <span>
-        {{ successMessage }}
-      </span>
-    </div>
+    <span>
+      {{ successMessage }}
+    </span>
 
     <button
       type="button"
-      class="alert-close"
       (click)="successMessage = ''"
     >
       ×
@@ -91,13 +76,36 @@
   </div>
 
 
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
+  <!-- ERROR -->
+  <!-- ================================================= -->
+
+  <div
+    class="alert error"
+    *ngIf="errorMessage"
+  >
+
+    <span>⚠</span>
+
+    <span>
+      {{ errorMessage }}
+    </span>
+
+    <button
+      type="button"
+      (click)="errorMessage = ''"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <!-- ================================================= -->
   <!-- STATISTICS -->
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
 
   <section class="stats-grid">
-
-    <!-- TOTAL -->
 
     <div class="stat-card">
 
@@ -105,13 +113,13 @@
         👥
       </div>
 
-      <div class="stat-content">
+      <div>
 
-        <span class="stat-label">
+        <span>
           Total adhérents
         </span>
 
-        <strong class="stat-value">
+        <strong>
           {{ totalAdherents }}
         </strong>
 
@@ -120,21 +128,19 @@
     </div>
 
 
-    <!-- ACTIFS -->
-
     <div class="stat-card">
 
       <div class="stat-icon green">
         ✓
       </div>
 
-      <div class="stat-content">
+      <div>
 
-        <span class="stat-label">
+        <span>
           Actifs
         </span>
 
-        <strong class="stat-value">
+        <strong>
           {{ actifs }}
         </strong>
 
@@ -143,21 +149,19 @@
     </div>
 
 
-    <!-- RETRAITES -->
-
     <div class="stat-card">
 
       <div class="stat-icon orange">
         ◷
       </div>
 
-      <div class="stat-content">
+      <div>
 
-        <span class="stat-label">
+        <span>
           Retraités
         </span>
 
-        <strong class="stat-value">
+        <strong>
           {{ retraites }}
         </strong>
 
@@ -166,21 +170,19 @@
     </div>
 
 
-    <!-- PENSIONNES -->
-
     <div class="stat-card">
 
       <div class="stat-icon purple">
         💳
       </div>
 
-      <div class="stat-content">
+      <div>
 
-        <span class="stat-label">
+        <span>
           Pensionnés
         </span>
 
-        <strong class="stat-value">
+        <strong>
           {{ pensionnes }}
         </strong>
 
@@ -191,20 +193,18 @@
   </section>
 
 
-  <!-- ========================================================= -->
-  <!-- MAIN CONTENT -->
-  <!-- ========================================================= -->
+  <!-- ================================================= -->
+  <!-- CONTENT -->
+  <!-- ================================================= -->
 
   <section class="content-card">
 
 
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
     <!-- TOOLBAR -->
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
 
     <div class="toolbar">
-
-      <!-- SEARCH -->
 
       <div class="search-box">
 
@@ -215,32 +215,28 @@
         <input
           type="text"
           [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-          placeholder="Rechercher par nom, matricule ou CIN..."
+          (keyup.enter)="onSearch()"
+          placeholder="Nom, prénom, matricule ou CIN..."
         >
 
         <button
           type="button"
-          class="clear-search"
-          *ngIf="searchTerm"
-          (click)="searchTerm = ''; onSearch()"
-          title="Effacer"
+          class="search-button"
+          (click)="onSearch()"
+          [disabled]="loading"
         >
-          ×
+          Rechercher
         </button>
 
       </div>
 
 
-      <!-- FILTERS -->
-
       <div class="filters">
-
-        <!-- CATEGORIE -->
 
         <select
           [(ngModel)]="selectedCategorie"
           (change)="onSearch()"
+          [disabled]="loading"
         >
 
           <option value="">
@@ -258,11 +254,10 @@
         </select>
 
 
-        <!-- SITUATION -->
-
         <select
           [(ngModel)]="selectedSituation"
           (change)="onSearch()"
+          [disabled]="loading"
         >
 
           <option value="">
@@ -280,31 +275,23 @@
         </select>
 
 
-        <!-- RESET -->
-
         <button
           type="button"
           class="btn-reset"
           (click)="resetFilters()"
+          [disabled]="loading"
         >
           Réinitialiser
         </button>
 
-
-        <!-- REFRESH -->
 
         <button
           type="button"
           class="btn-refresh"
           (click)="refresh()"
           [disabled]="loading"
-          title="Actualiser"
         >
-
-          <span [class.rotating]="loading">
-            ↻
-          </span>
-
+          ↻
         </button>
 
       </div>
@@ -312,41 +299,40 @@
     </div>
 
 
-    <!-- ======================================================= -->
-    <!-- RESULT BAR -->
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
+    <!-- RESULT -->
+    <!-- ================================================= -->
 
-    <div class="result-bar">
+    <div class="result-info">
 
-      <div class="result-count">
+      <span>
 
         <strong>
           {{ totalElements }}
         </strong>
 
-        <span>
-          adhérent(s) trouvé(s)
-        </span>
+        adhérent(s) trouvé(s)
 
-      </div>
+      </span>
 
-      <div
-        class="loading-indicator"
+
+      <span
         *ngIf="loading"
+        class="loading-text"
       >
 
         <span class="mini-spinner"></span>
 
         Chargement...
 
-      </div>
+      </span>
 
     </div>
 
 
-    <!-- ======================================================= -->
-    <!-- INITIAL LOADING -->
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
+    <!-- LOADING -->
+    <!-- ================================================= -->
 
     <div
       class="loading-container"
@@ -355,9 +341,9 @@
 
       <div class="spinner"></div>
 
-      <h3>
+      <strong>
         Chargement des adhérents
-      </h3>
+      </strong>
 
       <p>
         Veuillez patienter...
@@ -366,9 +352,9 @@
     </div>
 
 
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
     <!-- TABLE -->
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
 
     <div
       class="table-wrapper"
@@ -377,60 +363,36 @@
 
       <table>
 
-        <!-- ================================================= -->
-        <!-- HEADER -->
-        <!-- ================================================= -->
-
         <thead>
 
           <tr>
 
-            <th>
-              Adhérent
-            </th>
+            <th>Adhérent</th>
 
-            <th>
-              Matricule
-            </th>
+            <th>Matricule</th>
 
-            <th>
-              CIN
-            </th>
+            <th>CIN</th>
 
-            <th>
-              Catégorie
-            </th>
+            <th>Catégorie</th>
 
-            <th>
-              Grade
-            </th>
+            <th>Grade</th>
 
-            <th>
-              Téléphone
-            </th>
+            <th>Téléphone</th>
 
-            <th>
-              Situation
-            </th>
+            <th>Situation</th>
 
-            <th class="actions-column">
-              Actions
-            </th>
+            <th>Actions</th>
 
           </tr>
 
         </thead>
 
 
-        <!-- ================================================= -->
-        <!-- BODY -->
-        <!-- ================================================= -->
-
         <tbody>
 
-          <!-- ================================================= -->
-          <!-- ADHERENTS -->
-          <!-- ================================================= -->
+          <!-- =========================================== -->
+          <!-- DATA -->
+          <!-- =========================================== -->
 
           <tr
             *ngFor="
@@ -438,8 +400,6 @@
               trackBy: trackById
             "
           >
-
-            <!-- ADHERENT -->
 
             <td>
 
@@ -455,7 +415,7 @@
 
                 </div>
 
-                <div class="adherent-info">
+                <div>
 
                   <strong>
                     {{ adherent.prenomAr }}
@@ -473,46 +433,34 @@
             </td>
 
 
-            <!-- MATRICULE -->
-
             <td>
 
               <span class="matricule">
-                {{ adherent.matricule || '-' }}
+                {{ adherent.matricule }}
               </span>
 
             </td>
 
 
-            <!-- CIN -->
-
             <td>
-              {{ adherent.cin || '-' }}
+              {{ adherent.cin }}
             </td>
 
 
-            <!-- CATEGORIE -->
-
             <td>
-              {{ adherent.categorie || '-' }}
+              {{ adherent.categorie }}
             </td>
 
 
-            <!-- GRADE -->
-
             <td>
-              {{ adherent.grade || '-' }}
+              {{ adherent.grade }}
             </td>
 
 
-            <!-- TELEPHONE -->
-
             <td>
-              {{ adherent.telephone1 || '-' }}
+              {{ adherent.telephone1 }}
             </td>
 
-
-            <!-- SITUATION -->
 
             <td>
 
@@ -522,36 +470,31 @@
                   adherent.situationCategorie === 'Actif'
                 "
                 [class.status-retired]="
-                  adherent.situationCategorie === 'Retraité'
+                  adherent.situationCategorie === 'Retraité' ||
+                  adherent.situationCategorie === 'Retraite'
                 "
               >
 
-                {{ adherent.situationCategorie || '-' }}
+                {{ adherent.situationCategorie }}
 
               </span>
 
             </td>
 
 
-            <!-- ACTIONS -->
-
             <td>
 
               <div class="actions">
 
-                <!-- VIEW -->
-
                 <button
                   type="button"
                   class="action-btn view"
-                  title="Voir les détails"
+                  title="Voir"
                   (click)="openDetails(adherent)"
                 >
                   👁
                 </button>
 
-
-                <!-- EDIT -->
 
                 <button
                   type="button"
@@ -562,8 +505,6 @@
                   ✏
                 </button>
 
-
-                <!-- DELETE -->
 
                 <button
                   type="button"
@@ -581,9 +522,9 @@
           </tr>
 
 
-          <!-- ================================================= -->
+          <!-- =========================================== -->
           <!-- EMPTY -->
-          <!-- ================================================= -->
+          <!-- =========================================== -->
 
           <tr
             *ngIf="
@@ -598,24 +539,16 @@
             >
 
               <div class="empty-icon">
-                👥
+                🔎
               </div>
 
-              <h3>
+              <strong>
                 Aucun adhérent trouvé
-              </h3>
+              </strong>
 
-              <p>
-                Aucun adhérent ne correspond aux critères de recherche.
-              </p>
-
-              <button
-                type="button"
-                class="btn-reset-empty"
-                (click)="resetFilters()"
-              >
-                Réinitialiser les filtres
-              </button>
+              <span>
+                Modifiez vos critères de recherche.
+              </span>
 
             </td>
 
@@ -628,19 +561,16 @@
     </div>
 
 
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
     <!-- PAGINATION -->
-    <!-- ======================================================= -->
+    <!-- ================================================= -->
 
     <div
       class="pagination"
-      *ngIf="
-        totalElements > 0 &&
-        totalPages > 0
-      "
+      *ngIf="totalElements > 0"
     >
 
-      <div class="pagination-info">
+      <span class="pagination-info">
 
         Page
 
@@ -654,26 +584,22 @@
           {{ totalPages }}
         </strong>
 
-      </div>
+      </span>
 
 
       <div class="pagination-buttons">
 
-        <!-- PREVIOUS -->
-
         <button
           type="button"
+          (click)="changePage(currentPage - 1)"
           [disabled]="
             currentPage === 0 ||
             loading
           "
-          (click)="changePage(currentPage - 1)"
         >
           ‹
         </button>
 
-
-        <!-- PAGES -->
 
         <button
           type="button"
@@ -682,19 +608,19 @@
           [disabled]="loading"
           (click)="changePage(page)"
         >
+
           {{ page + 1 }}
+
         </button>
 
 
-        <!-- NEXT -->
-
         <button
           type="button"
+          (click)="changePage(currentPage + 1)"
           [disabled]="
             currentPage >= totalPages - 1 ||
             loading
           "
-          (click)="changePage(currentPage + 1)"
         >
           ›
         </button>
@@ -708,12 +634,9 @@
 </div>
 
 
-
-<!-- ========================================================= -->
-<!-- ========================================================= -->
+<!-- ===================================================== -->
 <!-- ADD / EDIT MODAL -->
-<!-- ========================================================= -->
-<!-- ========================================================= -->
+<!-- ===================================================== -->
 
 <div
   class="modal-overlay"
@@ -722,42 +645,44 @@
 
   <div class="modal large-modal">
 
-    <!-- HEADER -->
-
     <div class="modal-header">
 
       <div>
 
         <h2>
+
           {{
             editingAdherent
               ? 'Modifier l’adhérent'
               : 'Nouvel adhérent'
           }}
+
         </h2>
 
         <p>
+
           {{
             editingAdherent
               ? 'Modifier les informations de l’adhérent'
               : 'Renseignez les informations de l’adhérent'
           }}
+
         </p>
 
       </div>
+
 
       <button
         type="button"
         class="close-btn"
         (click)="closeForm()"
+        [disabled]="loading"
       >
         ×
       </button>
 
     </div>
 
-
-    <!-- FORM -->
 
     <form
       class="form"
@@ -766,7 +691,7 @@
 
 
       <!-- ================================================= -->
-      <!-- INFORMATIONS PERSONNELLES -->
+      <!-- PERSONAL -->
       <!-- ================================================= -->
 
       <div class="form-section">
@@ -775,9 +700,8 @@
           Informations personnelles
         </h3>
 
-        <div class="form-grid">
 
-          <!-- PRENOM -->
+        <div class="form-grid">
 
           <div class="form-group">
 
@@ -795,8 +719,6 @@
           </div>
 
 
-          <!-- NOM -->
-
           <div class="form-group">
 
             <label>
@@ -812,8 +734,6 @@
 
           </div>
 
-
-          <!-- CIN -->
 
           <div class="form-group">
 
@@ -831,8 +751,6 @@
           </div>
 
 
-          <!-- DATE NAISSANCE -->
-
           <div class="form-group">
 
             <label>
@@ -848,8 +766,6 @@
 
           </div>
 
-
-          <!-- LIEU NAISSANCE -->
 
           <div class="form-group">
 
@@ -872,7 +788,7 @@
 
 
       <!-- ================================================= -->
-      <!-- INFORMATIONS PROFESSIONNELLES -->
+      <!-- PROFESSIONAL -->
       <!-- ================================================= -->
 
       <div class="form-section">
@@ -881,9 +797,8 @@
           Informations professionnelles
         </h3>
 
-        <div class="form-grid">
 
-          <!-- CATEGORIE -->
+        <div class="form-grid">
 
           <div class="form-group">
 
@@ -914,8 +829,6 @@
           </div>
 
 
-          <!-- GRADE -->
-
           <div class="form-group">
 
             <label>
@@ -931,8 +844,6 @@
 
           </div>
 
-
-          <!-- MATRICULE BR -->
 
           <div class="form-group">
 
@@ -950,8 +861,6 @@
           </div>
 
 
-          <!-- MATRICULE -->
-
           <div class="form-group">
 
             <label>
@@ -967,8 +876,6 @@
 
           </div>
 
-
-          <!-- DERNIERE UNITE -->
 
           <div class="form-group">
 
@@ -986,8 +893,6 @@
           </div>
 
 
-          <!-- FORMATION -->
-
           <div class="form-group">
 
             <label>
@@ -1003,8 +908,6 @@
 
           </div>
 
-
-          <!-- SITUATION -->
 
           <div class="form-group">
 
@@ -1031,8 +934,6 @@
           </div>
 
 
-          <!-- PENSION -->
-
           <div class="form-group checkbox-group">
 
             <label>
@@ -1043,9 +944,7 @@
                 [(ngModel)]="form.pension"
               >
 
-              <span>
-                Pensionné
-              </span>
+              Pensionné
 
             </label>
 
@@ -1057,7 +956,7 @@
 
 
       <!-- ================================================= -->
-      <!-- COORDONNEES -->
+      <!-- CONTACT -->
       <!-- ================================================= -->
 
       <div class="form-section">
@@ -1066,9 +965,8 @@
           Coordonnées
         </h3>
 
-        <div class="form-grid">
 
-          <!-- GSM 1 -->
+        <div class="form-grid">
 
           <div class="form-group">
 
@@ -1086,8 +984,6 @@
           </div>
 
 
-          <!-- GSM 2 -->
-
           <div class="form-group">
 
             <label>
@@ -1102,8 +998,6 @@
 
           </div>
 
-
-          <!-- EMAIL -->
 
           <div class="form-group">
 
@@ -1120,8 +1014,6 @@
 
           </div>
 
-
-          <!-- ADRESSE -->
 
           <div class="form-group full">
 
@@ -1144,7 +1036,7 @@
 
 
       <!-- ================================================= -->
-      <!-- RADIATION / DECES -->
+      <!-- DECES / RADIATION -->
       <!-- ================================================= -->
 
       <div class="form-section">
@@ -1153,9 +1045,8 @@
           Radiation / Décès
         </h3>
 
-        <div class="form-grid">
 
-          <!-- DATE RADIATION -->
+        <div class="form-grid">
 
           <div class="form-group">
 
@@ -1172,8 +1063,6 @@
           </div>
 
 
-          <!-- MOTIF -->
-
           <div class="form-group">
 
             <label>
@@ -1189,8 +1078,6 @@
           </div>
 
 
-          <!-- DATE DECES -->
-
           <div class="form-group">
 
             <label>
@@ -1205,8 +1092,6 @@
 
           </div>
 
-
-          <!-- CAUSE -->
 
           <div class="form-group">
 
@@ -1233,6 +1118,8 @@
 
       <div class="modal-footer">
 
+
+
         <button
           type="button"
           class="btn-secondary"
@@ -1242,6 +1129,8 @@
           Annuler
         </button>
 
+  
+
         <button
           type="submit"
           class="btn-primary"
@@ -1249,20 +1138,26 @@
         >
 
           <span
-            *ngIf="loading"
-            class="button-spinner"
-          ></span>
+            *ngIf="!loading"
+          >
 
-          <span *ngIf="!loading">
             {{
               editingAdherent
                 ? 'Enregistrer les modifications'
                 : 'Ajouter l’adhérent'
             }}
+
           </span>
 
-          <span *ngIf="loading">
+
+          <span
+            *ngIf="loading"
+          >
+
+            <span class="mini-spinner"></span>
+
             Enregistrement...
+
           </span>
 
         </button>
@@ -1276,21 +1171,19 @@
 </div>
 
 
-
-<!-- ========================================================= -->
-<!-- ========================================================= -->
-<!-- DETAILS MODAL -->
-<!-- ========================================================= -->
-<!-- ========================================================= -->
+<!-- ===================================================== -->
+<!-- DETAILS -->
+<!-- ===================================================== -->
 
 <div
   class="modal-overlay"
-  *ngIf="showDetails && selectedAdherent"
+  *ngIf="
+    showDetails &&
+    selectedAdherent
+  "
 >
 
   <div class="modal detail-modal">
-
-    <!-- HEADER -->
 
     <div class="modal-header">
 
@@ -1306,6 +1199,7 @@
 
       </div>
 
+
       <button
         type="button"
         class="close-btn"
@@ -1317,33 +1211,33 @@
     </div>
 
 
-    <!-- CONTENT -->
-
     <div class="detail-content">
-
-      <!-- PROFILE -->
 
       <div class="profile">
 
         <div class="profile-avatar">
 
           {{
-            selectedAdherent!.prenomAr
-              ? selectedAdherent!.prenomAr.charAt(0)
+            selectedAdherent.prenomAr
+              ? selectedAdherent.prenomAr.charAt(0)
               : '?'
           }}
 
         </div>
 
+
         <div>
 
           <h3>
-            {{ selectedAdherent!.prenomAr }}
-            {{ selectedAdherent!.nomAr }}
+
+            {{ selectedAdherent.prenomAr }}
+
+            {{ selectedAdherent.nomAr }}
+
           </h3>
 
           <span>
-            {{ selectedAdherent!.grade || '-' }}
+            {{ selectedAdherent.grade }}
           </span>
 
         </div>
@@ -1351,73 +1245,71 @@
       </div>
 
 
-      <!-- DETAILS GRID -->
-
       <div class="detail-grid">
 
         <div>
           <span>ID</span>
-          <strong>#{{ selectedAdherent!.id }}</strong>
+          <strong>#{{ selectedAdherent.id }}</strong>
         </div>
 
         <div>
           <span>Matricule</span>
-          <strong>{{ selectedAdherent!.matricule || '-' }}</strong>
+          <strong>{{ selectedAdherent.matricule }}</strong>
         </div>
 
         <div>
           <span>Matricule BR</span>
-          <strong>{{ selectedAdherent!.matriculeBR || '-' }}</strong>
+          <strong>{{ selectedAdherent.matriculeBR }}</strong>
         </div>
 
         <div>
           <span>CIN</span>
-          <strong>{{ selectedAdherent!.cin || '-' }}</strong>
+          <strong>{{ selectedAdherent.cin }}</strong>
         </div>
 
         <div>
           <span>Catégorie</span>
-          <strong>{{ selectedAdherent!.categorie || '-' }}</strong>
+          <strong>{{ selectedAdherent.categorie }}</strong>
         </div>
 
         <div>
           <span>Grade</span>
-          <strong>{{ selectedAdherent!.grade || '-' }}</strong>
+          <strong>{{ selectedAdherent.grade }}</strong>
         </div>
 
         <div>
           <span>Date de naissance</span>
-          <strong>{{ selectedAdherent!.dateNaissance || '-' }}</strong>
+          <strong>{{ selectedAdherent.dateNaissance }}</strong>
         </div>
 
         <div>
           <span>Lieu de naissance</span>
-          <strong>{{ selectedAdherent!.lieuNaissance || '-' }}</strong>
+          <strong>{{ selectedAdherent.lieuNaissance }}</strong>
         </div>
 
         <div>
           <span>Dernière unité</span>
-          <strong>{{ selectedAdherent!.dernierUnite || '-' }}</strong>
+          <strong>{{ selectedAdherent.dernierUnite }}</strong>
         </div>
 
         <div>
           <span>Formation / Unité</span>
-          <strong>{{ selectedAdherent!.formationUnite || '-' }}</strong>
+          <strong>{{ selectedAdherent.formationUnite }}</strong>
         </div>
 
         <div>
           <span>GSM 1</span>
-          <strong>{{ selectedAdherent!.telephone1 || '-' }}</strong>
+          <strong>{{ selectedAdherent.telephone1 }}</strong>
         </div>
 
         <div>
           <span>GSM 2</span>
-          <strong>{{ selectedAdherent!.telephone2 || '-' }}</strong>
+          <strong>{{ selectedAdherent.telephone2 || '-' }}</strong>
         </div>
 
         <div>
           <span>Email</span>
-          <strong>{{ selectedAdherent!.email || '-' }}</strong>
+          <strong>{{ selectedAdherent.email }}</strong>
         </div>
 
         <div>
@@ -1428,13 +1320,15 @@
             <span
               class="status"
               [class.status-active]="
-                selectedAdherent!.situationCategorie === 'Actif'
+                selectedAdherent.situationCategorie === 'Actif'
               "
               [class.status-retired]="
-                selectedAdherent!.situationCategorie === 'Retraité'
+                selectedAdherent.situationCategorie === 'Retraité'
               "
             >
-              {{ selectedAdherent!.situationCategorie || '-' }}
+
+              {{ selectedAdherent.situationCategorie }}
+
             </span>
 
           </strong>
@@ -1445,45 +1339,41 @@
           <span>Pension</span>
 
           <strong>
-            {{
-              selectedAdherent!.pension
-                ? 'Oui'
-                : 'Non'
-            }}
+            {{ selectedAdherent.pension ? 'Oui' : 'Non' }}
           </strong>
 
         </div>
 
         <div class="detail-full">
           <span>Adresse</span>
-          <strong>{{ selectedAdherent!.adresse || '-' }}</strong>
+          <strong>{{ selectedAdherent.adresse }}</strong>
         </div>
 
         <div>
           <span>Date de radiation</span>
           <strong>
-            {{ selectedAdherent!.dateRadiation || '-' }}
+            {{ selectedAdherent.dateRadiation || '-' }}
           </strong>
         </div>
 
         <div>
           <span>Motif de radiation</span>
           <strong>
-            {{ selectedAdherent!.motifRadiation || '-' }}
+            {{ selectedAdherent.motifRadiation || '-' }}
           </strong>
         </div>
 
         <div>
           <span>Date de décès</span>
           <strong>
-            {{ selectedAdherent!.dateDeces || '-' }}
+            {{ selectedAdherent.dateDeces || '-' }}
           </strong>
         </div>
 
         <div>
           <span>Cause du décès</span>
           <strong>
-            {{ selectedAdherent!.causeDeces || '-' }}
+            {{ selectedAdherent.causeDeces || '-' }}
           </strong>
         </div>
 
@@ -1491,8 +1381,6 @@
 
     </div>
 
-
-    <!-- FOOTER -->
 
     <div class="modal-footer">
 
@@ -1503,6 +1391,7 @@
       >
         Fermer
       </button>
+
 
       <button
         type="button"
@@ -1522,12 +1411,9 @@
 </div>
 
 
-
-<!-- ========================================================= -->
-<!-- ========================================================= -->
-<!-- DELETE MODAL -->
-<!-- ========================================================= -->
-<!-- ========================================================= -->
+<!-- ===================================================== -->
+<!-- DELETE -->
+<!-- ===================================================== -->
 
 <div
   class="modal-overlay"
@@ -1540,17 +1426,22 @@
       !
     </div>
 
+
     <h2>
       Supprimer l’adhérent ?
     </h2>
+
 
     <p>
 
       Êtes-vous sûr de vouloir supprimer
 
       <strong>
+
         {{ adherentToDelete?.prenomAr }}
+
         {{ adherentToDelete?.nomAr }}
+
       </strong>
 
       ?
@@ -1561,7 +1452,8 @@
 
     </p>
 
-    <div class="modal-footer">
+
+    <div class="modal-footer">ghghghghg
 
       <button
         type="button"
@@ -1571,6 +1463,7 @@
       >
         Annuler
       </button>
+
 
       <button
         type="button"
@@ -1584,7 +1477,11 @@
         </span>
 
         <span *ngIf="loading">
+
+          <span class="mini-spinner"></span>
+
           Suppression...
+
         </span>
 
       </button>

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams
+} from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
+
 // =====================================================
-// ADHERENT MODEL
+// ADHERENT
 // =====================================================
 
 export interface Adherent {
@@ -48,30 +53,26 @@ export interface Adherent {
 
 
 // =====================================================
-// PAGINATION RESPONSE
-// Spring Boot Page<T>
+// PAGE
 // =====================================================
 
 export interface AdherentPage {
 
   content: Adherent[];
 
-  totalElements: number;
-
-  totalPages: number;
+  number: number;
 
   size: number;
 
-  number: number;
+  totalElements: number;
 
-  numberOfElements: number;
+  totalPages: number;
 
   first: boolean;
 
   last: boolean;
 
   empty: boolean;
-
 }
 
 
@@ -88,7 +89,6 @@ export interface AdherentStatistics {
   retraites: number;
 
   pensionnes: number;
-
 }
 
 
@@ -101,20 +101,12 @@ export interface AdherentStatistics {
 })
 export class AdherentService {
 
-  // ===================================================
-  // API URL
-  // ===================================================
-
   private readonly apiUrl =
     `${environment.apiUrl}/adherents`;
 
 
-  // ===================================================
-  // CONSTRUCTOR
-  // ===================================================
-
   constructor(
-    private http: HttpClient
+    private readonly http: HttpClient
   ) {}
 
 
@@ -123,64 +115,62 @@ export class AdherentService {
   // ===================================================
 
   getAll(
-    search: string = '',
-    categorie: string = '',
-    situation: string = '',
-    page: number = 0,
-    size: number = 5
+
+    search = '',
+
+    categorie = '',
+
+    situation = '',
+
+    page = 0,
+
+    size = 5
+
   ): Observable<AdherentPage> {
 
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('sort', 'id,desc');
+    let params =
+      new HttpParams()
+        .set(
+          'page',
+          page.toString()
+        )
+        .set(
+          'size',
+          size.toString()
+        )
+        .set(
+          'sort',
+          'id,desc'
+        );
 
 
-    // -----------------------------------------------
-    // SEARCH
-    // -----------------------------------------------
+    if (search.trim()) {
 
-    if (search && search.trim() !== '') {
-
-      params = params.set(
-        'search',
-        search.trim()
-      );
-
+      params =
+        params.set(
+          'search',
+          search.trim()
+        );
     }
 
 
-    // -----------------------------------------------
-    // CATEGORIE
-    // -----------------------------------------------
+    if (categorie.trim()) {
 
-    if (
-      categorie &&
-      categorie.trim() !== ''
-    ) {
-
-      params = params.set(
-        'categorie',
-        categorie.trim()
-      );
-
+      params =
+        params.set(
+          'categorie',
+          categorie.trim()
+        );
     }
 
 
-    // -----------------------------------------------
-    // SITUATION
-    // -----------------------------------------------
+    if (situation.trim()) {
 
-    if (
-      situation &&
-      situation.trim() !== ''
-    ) {
-
-      params = params.set(
-        'situation',
-        situation.trim()
-      );
-
+      params =
+        params.set(
+          'situation',
+          situation.trim()
+        );
     }
 
 
@@ -188,7 +178,6 @@ export class AdherentService {
       this.apiUrl,
       { params }
     );
-
   }
 
 
@@ -203,7 +192,6 @@ export class AdherentService {
     return this.http.get<Adherent>(
       `${this.apiUrl}/${id}`
     );
-
   }
 
 
@@ -215,27 +203,31 @@ export class AdherentService {
     adherent: Adherent
   ): Observable<Adherent> {
 
-    // -----------------------------------------------
-    // On ne doit pas envoyer l'id pour une création
-    // -----------------------------------------------
-
     const data = {
 
-      prenomAr: adherent.prenomAr,
+      prenomAr:
+        adherent.prenomAr,
 
-      nomAr: adherent.nomAr,
+      nomAr:
+        adherent.nomAr,
 
-      categorie: adherent.categorie,
+      categorie:
+        adherent.categorie,
 
-      grade: adherent.grade,
+      grade:
+        adherent.grade,
 
-      matriculeBR: adherent.matriculeBR,
+      matriculeBR:
+        adherent.matriculeBR,
 
-      matricule: adherent.matricule,
+      matricule:
+        adherent.matricule,
 
-      dateNaissance: adherent.dateNaissance,
+      dateNaissance:
+        adherent.dateNaissance,
 
-      lieuNaissance: adherent.lieuNaissance,
+      lieuNaissance:
+        adherent.lieuNaissance,
 
       dateRadiation:
         adherent.dateRadiation || null,
@@ -275,7 +267,6 @@ export class AdherentService {
 
       cin:
         adherent.cin
-
     };
 
 
@@ -283,7 +274,6 @@ export class AdherentService {
       this.apiUrl,
       data
     );
-
   }
 
 
@@ -292,27 +282,38 @@ export class AdherentService {
   // ===================================================
 
   update(
+
     id: number,
+
     adherent: Adherent
+
   ): Observable<Adherent> {
 
     const data = {
 
-      prenomAr: adherent.prenomAr,
+      prenomAr:
+        adherent.prenomAr,
 
-      nomAr: adherent.nomAr,
+      nomAr:
+        adherent.nomAr,
 
-      categorie: adherent.categorie,
+      categorie:
+        adherent.categorie,
 
-      grade: adherent.grade,
+      grade:
+        adherent.grade,
 
-      matriculeBR: adherent.matriculeBR,
+      matriculeBR:
+        adherent.matriculeBR,
 
-      matricule: adherent.matricule,
+      matricule:
+        adherent.matricule,
 
-      dateNaissance: adherent.dateNaissance,
+      dateNaissance:
+        adherent.dateNaissance,
 
-      lieuNaissance: adherent.lieuNaissance,
+      lieuNaissance:
+        adherent.lieuNaissance,
 
       dateRadiation:
         adherent.dateRadiation || null,
@@ -352,7 +353,6 @@ export class AdherentService {
 
       cin:
         adherent.cin
-
     };
 
 
@@ -360,7 +360,6 @@ export class AdherentService {
       `${this.apiUrl}/${id}`,
       data
     );
-
   }
 
 
@@ -375,7 +374,6 @@ export class AdherentService {
     return this.http.delete<void>(
       `${this.apiUrl}/${id}`
     );
-
   }
 
 
@@ -389,7 +387,5 @@ export class AdherentService {
     return this.http.get<AdherentStatistics>(
       `${this.apiUrl}/statistics`
     );
-
   }
-
 }

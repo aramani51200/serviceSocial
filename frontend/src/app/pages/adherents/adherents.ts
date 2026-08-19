@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-import {
-  Subject,
-  debounceTime,
-  distinctUntilChanged,
-  takeUntil
-} from 'rxjs';
 
 import {
   AdherentService,
@@ -16,7 +13,6 @@ import {
   AdherentPage,
   AdherentStatistics
 } from '../../core/services/adherent.service';
-
 
 @Component({
   selector: 'app-adherents',
@@ -31,7 +27,7 @@ import {
   templateUrl: './adherents.html',
   styleUrl: './adherents.css'
 })
-export class Adherents implements OnInit, OnDestroy {
+export class Adherents implements OnInit {
 
   // =====================================================
   // DATA
@@ -47,7 +43,7 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // SEARCH
+  // SEARCH / FILTERS
   // =====================================================
 
   searchTerm = '';
@@ -55,6 +51,7 @@ export class Adherents implements OnInit, OnDestroy {
   selectedCategorie = '';
 
   selectedSituation = '';
+  testChanges = 'test changes';
 
 
   // =====================================================
@@ -75,23 +72,25 @@ export class Adherents implements OnInit, OnDestroy {
   // =====================================================
 
   statistics: AdherentStatistics = {
-
     total: 0,
-
     actifs: 0,
-
     retraites: 0,
-
     pensionnes: 0
-
   };
 
 
   // =====================================================
-  // LOADING / ERROR
+  // LOADING
   // =====================================================
 
   loading = false;
+
+  loadingStatistics = false;
+
+
+  // =====================================================
+  // MESSAGES
+  // =====================================================
 
   errorMessage = '';
 
@@ -102,7 +101,28 @@ export class Adherents implements OnInit, OnDestroy {
   // MODALS
   // =====================================================
 
-  showForm = false;
+  // showForm = false;
+
+  private _showForm = false;
+
+get showForm(): boolean {
+  return this._showForm;
+}
+
+set showForm(value: boolean) {
+  console.log(
+    '%c SHOW FORM CHANGED',
+    'color: blue; font-weight: bold;',
+    'OLD =',
+    this._showForm,
+    'NEW =',
+    value
+  );
+
+  console.trace();
+
+  this._showForm = value;
+}
 
   showDetails = false;
 
@@ -117,53 +137,19 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // RXJS
-  // =====================================================
-
-  private searchSubject =
-    new Subject<string>();
-
-  private destroy$ =
-    new Subject<void>();
-
-
-  // =====================================================
   // CONSTRUCTOR
   // =====================================================
 
-  constructor(
-    private adherentService: AdherentService
-  ) {}
-
+constructor(
+  private readonly adherentService: AdherentService,
+  private readonly cdr: ChangeDetectorRef
+) {}
 
   // =====================================================
   // INIT
   // =====================================================
 
   ngOnInit(): void {
-
-    // ---------------------------------------------------
-    // Recherche avec délai de 500 ms
-    // ---------------------------------------------------
-
-    this.searchSubject
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-
-        this.currentPage = 0;
-
-        this.loadAdherents();
-
-      });
-
-
-    // ---------------------------------------------------
-    // Chargement initial
-    // ---------------------------------------------------
 
     this.loadAdherents();
 
@@ -173,22 +159,7 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // DESTROY
-  // =====================================================
-
-  ngOnDestroy(): void {
-
-    this.destroy$.next();
-
-    this.destroy$.complete();
-
-    this.searchSubject.complete();
-
-  }
-
-
-  // =====================================================
-  // EMPTY ADHERENT
+  // EMPTY MODEL
   // =====================================================
 
   emptyAdherent(): Adherent {
@@ -198,39 +169,30 @@ export class Adherents implements OnInit, OnDestroy {
       id: 0,
 
       prenomAr: '',
-
       nomAr: '',
 
       categorie: '',
-
       grade: '',
 
       matriculeBR: '',
-
       matricule: '',
 
       dateNaissance: '',
-
       lieuNaissance: '',
 
       dateRadiation: null,
-
       motifRadiation: null,
 
       dateDeces: null,
-
       causeDeces: null,
 
       dernierUnite: '',
-
       formationUnite: '',
 
       telephone1: '',
-
       telephone2: '',
 
       adresse: '',
-
       email: '',
 
       situationCategorie: 'Actif',
@@ -238,9 +200,7 @@ export class Adherents implements OnInit, OnDestroy {
       pension: false,
 
       cin: ''
-
     };
-
   }
 
 
@@ -248,95 +208,145 @@ export class Adherents implements OnInit, OnDestroy {
   // LOAD ADHERENTS
   // =====================================================
 
-  loadAdherents(): void {
+//   loadAdherents(): void {
+    
 
-    // ---------------------------------------------------
-    // Évite plusieurs requêtes simultanées
-    // ---------------------------------------------------
+//     if (this.loading) {
+//       return;
+//     }
 
-    if (this.loading) {
+//     this.loading = true;
 
-      return;
+//     this.errorMessage = '';
 
+//     this.adherentService.getAll(
+
+//       this.searchTerm,
+
+//       this.selectedCategorie,
+
+//       this.selectedSituation,
+
+//       this.currentPage,
+
+//       this.pageSize
+
+//     ).subscribe({
+
+//       next: (response: AdherentPage) => {
+// console.log('Adherents response:', response.content);
+//         this.adherents =
+//           response.content ?? [];
+
+//         this.totalElements =
+//           response.totalElements ?? 0;
+
+//         this.totalPages =
+//           response.totalPages ?? 0;
+
+//         this.currentPage =
+//           response.number ?? 0;
+
+//         this.loading = false;
+
+
+//       },
+
+//       error: (error) => {
+
+//         console.error(
+//           'Erreur chargement adhérents :',
+//           error
+//         );
+
+//         this.adherents = [];
+
+//         this.totalElements = 0;
+
+//         this.totalPages = 0;
+
+//         this.loading = false;
+
+//         this.errorMessage =
+//           this.getErrorMessage(
+//             error,
+//             'Impossible de charger les adhérents.'
+//           );
+//       }
+
+//     });
+//     console.log('Adherents loaded:', this.adherents);
+//   }
+loadAdherents(): void {
+
+  console.log('loadAdherents()');
+
+  this.loading = true;
+  this.errorMessage = '';
+
+  this.adherentService.getAll(
+    this.searchTerm,
+    this.selectedCategorie,
+    this.selectedSituation,
+    this.currentPage,
+    this.pageSize
+  ).subscribe({
+
+    next: (response: AdherentPage) => {
+
+      console.log(
+        'NEW RESPONSE:',
+        response.content
+      );
+
+      this.adherents = [
+        ...(response.content ?? [])
+      ];
+
+      this.totalElements =
+        response.totalElements ?? 0;
+
+      this.totalPages =
+        response.totalPages ?? 0;
+
+      this.currentPage =
+        response.number ?? 0;
+
+      this.loading = false;
+
+      console.log(
+        'TABLE DATA:',
+        this.adherents
+      );
+
+      this.cdr.detectChanges();
+    },
+
+    error: (error) => {
+
+      console.error(
+        'Erreur chargement adhérents:',
+        error
+      );
+
+      this.adherents = [];
+
+      this.totalElements = 0;
+      this.totalPages = 0;
+
+      this.loading = false;
+
+      this.errorMessage =
+        this.getErrorMessage(
+          error,
+          'Impossible de charger les adhérents.'
+        );
+
+      this.cdr.detectChanges();
     }
 
-
-    this.loading = true;
-
-    this.errorMessage = '';
-
-
-    this.adherentService
-      .getAll(
-
-        this.searchTerm,
-
-        this.selectedCategorie,
-
-        this.selectedSituation,
-
-        this.currentPage,
-
-        this.pageSize
-
-      )
-      .subscribe({
-
-        next: (response: AdherentPage) => {
-
-          console.log(
-            'Adhérents reçus :',
-            response
-          );
-
-
-          this.adherents =
-            response.content ?? [];
-
-
-          this.totalElements =
-            response.totalElements ?? 0;
-
-
-          this.totalPages =
-            response.totalPages ?? 0;
-
-
-          this.currentPage =
-            response.number ?? 0;
-
-
-          this.loading = false;
-
-        },
-
-
-        error: (error) => {
-
-          console.error(
-            'Erreur chargement adhérents :',
-            error
-          );
-
-
-          this.adherents = [];
-
-          this.totalElements = 0;
-
-          this.totalPages = 0;
-
-          this.loading = false;
-
-
-          this.errorMessage =
-            'Impossible de charger les adhérents.';
-
-        }
-
-      });
-
-  }
-
+  });
+}
 
   // =====================================================
   // LOAD STATISTICS
@@ -344,16 +354,27 @@ export class Adherents implements OnInit, OnDestroy {
 
   loadStatistics(): void {
 
+    this.loadingStatistics = true;
+
     this.adherentService
       .getStatistics()
       .subscribe({
 
-        next: (
-          response: AdherentStatistics
-        ) => {
+        next: (response: AdherentStatistics) => {
 
-          this.statistics = response;
+          this.statistics = {
 
+            total: response.total ?? 0,
+
+            actifs: response.actifs ?? 0,
+
+            retraites: response.retraites ?? 0,
+
+            pensionnes: response.pensionnes ?? 0
+
+          };
+
+          this.loadingStatistics = false;
         },
 
         error: (error) => {
@@ -363,10 +384,11 @@ export class Adherents implements OnInit, OnDestroy {
             error
           );
 
+          this.loadingStatistics = false;
+
         }
 
       });
-
   }
 
 
@@ -376,19 +398,6 @@ export class Adherents implements OnInit, OnDestroy {
 
   onSearch(): void {
 
-    this.searchSubject.next(
-      this.searchTerm.trim()
-    );
-
-  }
-
-
-  // =====================================================
-  // FILTER CATEGORIE
-  // =====================================================
-
-  onCategorieChange(): void {
-
     this.currentPage = 0;
 
     this.loadAdherents();
@@ -397,20 +406,7 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // FILTER SITUATION
-  // =====================================================
-
-  onSituationChange(): void {
-
-    this.currentPage = 0;
-
-    this.loadAdherents();
-
-  }
-
-
-  // =====================================================
-  // RESET FILTERS
+  // RESET
   // =====================================================
 
   resetFilters(): void {
@@ -435,28 +431,16 @@ export class Adherents implements OnInit, OnDestroy {
   changePage(page: number): void {
 
     if (this.loading) {
-
       return;
-
     }
 
-
-    if (
-      page < 0 ||
-      page >= this.totalPages
-    ) {
-
+    if (page < 0) {
       return;
-
     }
 
-
-    if (page === this.currentPage) {
-
+    if (page >= this.totalPages) {
       return;
-
     }
-
 
     this.currentPage = page;
 
@@ -471,13 +455,40 @@ export class Adherents implements OnInit, OnDestroy {
 
   get pages(): number[] {
 
+    if (this.totalPages <= 0) {
+      return [];
+    }
+
+    const maxPages = 7;
+
+    let start =
+      Math.max(
+        0,
+        this.currentPage - 3
+      );
+
+    let end =
+      Math.min(
+        this.totalPages,
+        start + maxPages
+      );
+
+    if (end - start < maxPages) {
+
+      start =
+        Math.max(
+          0,
+          end - maxPages
+        );
+    }
+
     return Array.from(
       {
-        length: this.totalPages
+        length: end - start
       },
-      (_, index) => index
+      (_, index) =>
+        start + index
     );
-
   }
 
 
@@ -491,20 +502,17 @@ export class Adherents implements OnInit, OnDestroy {
 
   }
 
-
   get actifs(): number {
 
     return this.statistics.actifs;
 
   }
 
-
   get retraites(): number {
 
     return this.statistics.retraites;
 
   }
-
 
   get pensionnes(): number {
 
@@ -514,7 +522,7 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // ADD FORM
+  // ADD
   // =====================================================
 
   openAddForm(): void {
@@ -534,15 +542,12 @@ export class Adherents implements OnInit, OnDestroy {
 
 
   // =====================================================
-  // EDIT FORM
+  // EDIT
   // =====================================================
 
-  openEditForm(
-    adherent: Adherent
-  ): void {
+  openEditForm(adherent: Adherent): void {
 
-    this.editingAdherent =
-      adherent;
+    this.editingAdherent = adherent;
 
     this.form = {
       ...adherent
@@ -563,375 +568,304 @@ export class Adherents implements OnInit, OnDestroy {
 
   saveAdherent(): void {
 
-    this.errorMessage = '';
+  if (this.loading) {
+    return;
+  }
 
-    this.successMessage = '';
+  this.errorMessage = '';
+  this.successMessage = '';
 
+  const validationError = this.validateForm();
 
-    // ===================================================
-    // VALIDATION
-    // ===================================================
+  if (validationError) {
+    this.errorMessage = validationError;
+    return;
+  }
 
-    if (!this.form.prenomAr?.trim()) {
+  this.loading = true;
 
-      this.errorMessage =
-        'Le prénom arabe est obligatoire.';
+  // =====================================================
+  // UPDATE
+  // =====================================================
 
-      return;
+  if (this.editingAdherent) {
 
-    }
+    const id = this.editingAdherent.id;
 
+    this.adherentService.update(id, this.form).subscribe({
 
-    if (!this.form.nomAr?.trim()) {
+      next: (updatedAdherent: Adherent) => {
 
-      this.errorMessage =
-        'Le nom arabe est obligatoire.';
+        console.log('UPDATE RESPONSE:', updatedAdherent);
 
-      return;
+        /*
+         * Mise à jour immédiate de la ligne dans le tableau.
+         */
+        const index = this.adherents.findIndex(
+          a => a.id === id
+        );
 
-    }
+        if (index !== -1) {
 
+          this.adherents[index] = {
+            ...updatedAdherent
+          };
 
-    if (!this.form.cin?.trim()) {
-
-      this.errorMessage =
-        'Le CIN est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.matricule?.trim()) {
-
-      this.errorMessage =
-        'Le matricule est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.dateNaissance) {
-
-      this.errorMessage =
-        'La date de naissance est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.lieuNaissance?.trim()) {
-
-      this.errorMessage =
-        'Le lieu de naissance est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.categorie?.trim()) {
-
-      this.errorMessage =
-        'La catégorie est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.grade?.trim()) {
-
-      this.errorMessage =
-        'Le grade est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.matriculeBR?.trim()) {
-
-      this.errorMessage =
-        'Le matricule BR est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.dernierUnite?.trim()) {
-
-      this.errorMessage =
-        'La dernière unité est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.formationUnite?.trim()) {
-
-      this.errorMessage =
-        'La formation / unité est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.telephone1?.trim()) {
-
-      this.errorMessage =
-        'Le GSM 1 est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.adresse?.trim()) {
-
-      this.errorMessage =
-        'L’adresse est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.email?.trim()) {
-
-      this.errorMessage =
-        'L’email est obligatoire.';
-
-      return;
-
-    }
-
-
-    if (!this.form.situationCategorie?.trim()) {
-
-      this.errorMessage =
-        'La situation est obligatoire.';
-
-      return;
-
-    }
-
-
-    // ===================================================
-    // UPDATE
-    // ===================================================
-
-    if (this.editingAdherent) {
-
-      const id =
-        this.editingAdherent.id;
-
-
-      this.loading = true;
-
-
-      this.adherentService
-        .update(
-          id,
-          this.form
-        )
-        .subscribe({
-
-          next: (
-            response
-          ) => {
-
-            console.log(
-              'Adhérent modifié :',
-              response
-            );
-
-
-            this.loading = false;
-
-            this.closeForm();
-
-
-            this.successMessage =
-              'Adhérent modifié avec succès.';
-
-
-            this.loadAdherents();
-
-            this.loadStatistics();
-
-          },
-
-
-          error: (error) => {
-
-            console.error(
-              'Erreur modification :',
-              error
-            );
-
-
-            this.loading = false;
-
-            this.handleBackendError(
-              error
-            );
-
-          }
-
-        });
-
-
-      return;
-
-    }
-
-
-    // ===================================================
-    // CREATE
-    // ===================================================
-
-    this.loading = true;
-
-
-    this.adherentService
-      .create(this.form)
-      .subscribe({
-
-        next: (
-          response
-        ) => {
-
-          console.log(
-            'Adhérent créé :',
-            response
-          );
-
-
-          this.loading = false;
-
-          this.closeForm();
-
-
-          this.successMessage =
-            'Adhérent ajouté avec succès.';
-
-
-          this.currentPage = 0;
-
-
-          this.loadAdherents();
-
-          this.loadStatistics();
-
-        },
-
-
-        error: (error) => {
-
-          console.error(
-            'Erreur création :',
-            error
-          );
-
-
-          this.loading = false;
-
-          this.handleBackendError(
-            error
-          );
-
+          /*
+           * Nouvelle référence du tableau
+           * pour forcer Angular à voir le changement.
+           */
+          this.adherents = [
+            ...this.adherents
+          ];
         }
 
-      });
+        this.loading = false;
 
+        this.closeForm();
+
+        this.successMessage =
+          'Adhérent modifié avec succès.';
+
+        /*
+         * Recharge depuis Spring Boot pour avoir
+         * exactement les données de la DB.
+         */
+        this.loadAdherents();
+        this.loadStatistics();
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Erreur modification :',
+          error
+        );
+
+        this.loading = false;
+
+        this.errorMessage =
+          this.getErrorMessage(
+            error,
+            'Erreur lors de la modification.'
+          );
+
+        this.cdr.detectChanges();
+      }
+
+    });
+
+    return;
   }
 
 
   // =====================================================
-  // BACKEND ERROR
+  // CREATE
   // =====================================================
 
-  private handleBackendError(
-    error: any
-  ): void {
+  this.adherentService.create(this.form).subscribe({
 
-    console.error(
-      'Backend error:',
-      error
-    );
+    next: (createdAdherent: Adherent) => {
 
+      console.log(
+        'CREATE RESPONSE:',
+        createdAdherent
+      );
 
-    if (error?.status === 409) {
+      /*
+       * Ajouter immédiatement le nouvel adhérent
+       * dans le tableau.
+       */
+      this.adherents = [
+        createdAdherent,
+        ...this.adherents
+      ];
+
+      this.totalElements =
+        this.totalElements + 1;
+
+      this.loading = false;
+
+      this.closeForm();
+
+      this.successMessage =
+        'Adhérent ajouté avec succès.';
+
+      /*
+       * Revenir à la première page.
+       */
+      this.currentPage = 0;
+
+      /*
+       * Recharger depuis le backend.
+       */
+      this.loadAdherents();
+      this.loadStatistics();
+
+      this.cdr.detectChanges();
+
+    },
+
+    error: (error) => {
+
+      console.error(
+        'Erreur création :',
+        error
+      );
+
+      this.loading = false;
 
       this.errorMessage =
-        error?.error?.message ??
-        'Le matricule ou le CIN existe déjà.';
+        this.getErrorMessage(
+          error,
+          'Erreur lors de la création.'
+        );
 
-      return;
-
+      this.cdr.detectChanges();
     }
 
+  });
+}
+
+  // =====================================================
+  // FORM VALIDATION
+  // =====================================================
+
+  private validateForm(): string | null {
+
+    if (!this.form.prenomAr?.trim()) {
+
+      return 'Le prénom arabe est obligatoire.';
+    }
+
+    if (!this.form.nomAr?.trim()) {
+
+      return 'Le nom arabe est obligatoire.';
+    }
+
+    if (!this.form.cin?.trim()) {
+
+      return 'Le CIN est obligatoire.';
+    }
+
+    if (!this.form.dateNaissance) {
+
+      return 'La date de naissance est obligatoire.';
+    }
+
+    if (!this.form.lieuNaissance?.trim()) {
+
+      return 'Le lieu de naissance est obligatoire.';
+    }
+
+    if (!this.form.categorie?.trim()) {
+
+      return 'La catégorie est obligatoire.';
+    }
+
+    if (!this.form.grade?.trim()) {
+
+      return 'Le grade est obligatoire.';
+    }
+
+    if (!this.form.matriculeBR?.trim()) {
+
+      return 'Le matricule BR est obligatoire.';
+    }
+
+    if (!this.form.matricule?.trim()) {
+
+      return 'Le matricule est obligatoire.';
+    }
+
+    if (!this.form.dernierUnite?.trim()) {
+
+      return 'La dernière unité est obligatoire.';
+    }
+
+    if (!this.form.formationUnite?.trim()) {
+
+      return 'La formation / unité est obligatoire.';
+    }
+
+    if (!this.form.telephone1?.trim()) {
+
+      return 'Le GSM 1 est obligatoire.';
+    }
+
+    if (!this.form.adresse?.trim()) {
+
+      return 'L’adresse est obligatoire.';
+    }
+
+    if (!this.form.email?.trim()) {
+
+      return 'L’email est obligatoire.';
+    }
+
+    if (!this.form.situationCategorie?.trim()) {
+
+      return 'La situation est obligatoire.';
+    }
+
+    return null;
+  }
+
+
+  // =====================================================
+  // ERROR MESSAGE
+  // =====================================================
+
+  private getErrorMessage(
+    error: any,
+    defaultMessage: string
+  ): string {
+
+    if (error?.status === 0) {
+
+      return 'Impossible de contacter le serveur. Vérifiez que Spring Boot est démarré sur le port 8081.';
+    }
 
     if (error?.status === 400) {
 
-      this.errorMessage =
-        error?.error?.message ??
-        'Les données saisies sont invalides.';
-
-      return;
-
+      return (
+        error?.error?.message ||
+        'Les données envoyées sont invalides.'
+      );
     }
-
 
     if (error?.status === 401) {
 
-      this.errorMessage =
-        'Session expirée. Veuillez vous reconnecter.';
-
-      return;
-
+      return 'Votre session a expiré. Veuillez vous reconnecter.';
     }
-
 
     if (error?.status === 403) {
 
-      this.errorMessage =
-        'Vous n’avez pas l’autorisation.';
-
-      return;
-
+      return 'Vous n’avez pas l’autorisation d’effectuer cette opération.';
     }
-
 
     if (error?.status === 404) {
 
-      this.errorMessage =
-        'Adhérent introuvable.';
-
-      return;
-
+      return 'Adhérent introuvable.';
     }
 
+    if (error?.status === 409) {
 
-    if (error?.status === 500) {
-
-      this.errorMessage =
-        'Erreur interne du serveur.';
-
-      return;
-
+      return (
+        error?.error?.message ||
+        'Le matricule ou le CIN existe déjà.'
+      );
     }
 
+    if (error?.error?.message) {
 
-    this.errorMessage =
-      'Une erreur est survenue lors de l’opération.';
+      return error.error.message;
+    }
 
+    return defaultMessage;
   }
 
 
@@ -987,10 +921,12 @@ export class Adherents implements OnInit, OnDestroy {
 
   deleteAdherent(): void {
 
-    if (!this.adherentToDelete) {
+    if (
+      !this.adherentToDelete ||
+      this.loading
+    ) {
 
       return;
-
     }
 
 
@@ -1007,28 +943,18 @@ export class Adherents implements OnInit, OnDestroy {
 
         next: () => {
 
-          console.log(
-            'Adhérent supprimé'
-          );
-
-
           this.loading = false;
-
 
           this.showDeleteConfirmation =
             false;
 
-
-          this.adherentToDelete =
-            null;
-
+          this.adherentToDelete = null;
 
           this.successMessage =
             'Adhérent supprimé avec succès.';
 
-
-          // Si la dernière ligne de la page
-          // vient d'être supprimée
+          // Si on supprime le dernier élément
+          // de la page actuelle
           if (
             this.adherents.length === 1 &&
             this.currentPage > 0
@@ -1038,13 +964,11 @@ export class Adherents implements OnInit, OnDestroy {
 
           }
 
-
           this.loadAdherents();
 
           this.loadStatistics();
 
         },
-
 
         error: (error) => {
 
@@ -1053,12 +977,13 @@ export class Adherents implements OnInit, OnDestroy {
             error
           );
 
-
           this.loading = false;
 
-          this.handleBackendError(
-            error
-          );
+          this.errorMessage =
+            this.getErrorMessage(
+              error,
+              'Erreur lors de la suppression.'
+            );
 
         }
 
@@ -1072,6 +997,10 @@ export class Adherents implements OnInit, OnDestroy {
   // =====================================================
 
   closeDelete(): void {
+
+    if (this.loading) {
+      return;
+    }
 
     this.showDeleteConfirmation =
       false;
@@ -1088,16 +1017,13 @@ export class Adherents implements OnInit, OnDestroy {
 
   closeForm(): void {
 
-    this.showForm = false;
+  console.log('Closing form');
 
-    this.editingAdherent = null;
+  this.showForm = false;
+  this.editingAdherent = null;
+  this.form = this.emptyAdherent();
 
-    this.form =
-      this.emptyAdherent();
-
-  }
-
-
+}
   // =====================================================
   // REFRESH
   // =====================================================
@@ -1105,11 +1031,8 @@ export class Adherents implements OnInit, OnDestroy {
   refresh(): void {
 
     if (this.loading) {
-
       return;
-
     }
-
 
     this.loadAdherents();
 
@@ -1130,5 +1053,4 @@ export class Adherents implements OnInit, OnDestroy {
     return adherent.id;
 
   }
-
 }
