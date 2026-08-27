@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
-interface Adherent {
-  id: number;
-  cin: string;
-  matricule: string;
-  nom: string;
-  prenom: string;
-}
+import {
+  Adherent,
+  AdherentService
+} from '../../../core/services/adherent.service';
+
+import {
+  DecesService,
+  DossierDecesCreate
+} from '../../../core/services/deces.service';
+
 
 @Component({
   selector: 'app-nouveau-dossier',
@@ -22,50 +25,9 @@ interface Adherent {
 })
 export class NouveauDossier {
 
-  // ==========================================
-  // ADHERENTS STATIC POUR LE MOMENT
-  // ==========================================
-
-  adherents: Adherent[] = [
-
-    {
-      id: 1,
-      cin: 'AB123456',
-      matricule: '123456',
-      nom: 'ALAMI',
-      prenom: 'Mohamed'
-    },
-
-    {
-      id: 2,
-      cin: 'CD789012',
-      matricule: '789012',
-      nom: 'BENALI',
-      prenom: 'Ahmed'
-    },
-
-    {
-      id: 3,
-      cin: 'EF345678',
-      matricule: '345678',
-      nom: 'EL IDRISSI',
-      prenom: 'Youssef'
-    },
-
-    {
-      id: 4,
-      cin: 'GH901234',
-      matricule: '901234',
-      nom: 'TAOUFIK',
-      prenom: 'Hassan'
-    }
-
-  ];
-
-
-  // ==========================================
-  // RECHERCHE
-  // ==========================================
+  // =====================================================
+  // RECHERCHE ADHERENT
+  // =====================================================
 
   rechercheAdherent = '';
 
@@ -73,106 +35,164 @@ export class NouveauDossier {
 
   adherentSelectionne: Adherent | null = null;
 
+  rechercheEnCours = false;
 
-  // ==========================================
+  loadingAdherents = false;
+
+
+  // =====================================================
+  // ETAT
+  // =====================================================
+
+  loading = false;
+
+  erreur = '';
+
+  succes = '';
+
+
+  // =====================================================
   // DOSSIER
-  // ==========================================
+  // =====================================================
 
   dossier = {
 
-  adherentId: null as number | null,
+    adherentId: null as number | null,
 
-  nomComplet: '',
+    nomComplet: '',
 
-  dateDeces: '',
+    dateDeces: '',
 
-  lieuDeces: '',
+    lieuDeces: '',
 
-  natureDeces: '',
+    natureDeces: '',
 
-  causeDeces: '',
+    causeDeces: '',
 
-  dpr: '',
+    dpr: '',
 
-  observation: ''
+    observation: ''
+  };
 
-};
 
-  // ==========================================
-  // RECHERCHE DYNAMIQUE
-  // ==========================================
+  // =====================================================
+  // CONSTRUCTOR
+  // =====================================================
+
+  constructor(
+    private readonly adherentService: AdherentService,
+    private readonly decesService: DecesService,
+    private readonly router: Router
+  ) {}
+
+
+  // =====================================================
+  // RECHERCHE ADHERENT
+  // =====================================================
 
   rechercherAdherent(): void {
 
     const value =
-      this.rechercheAdherent
-        .trim()
-        .toLowerCase();
+      this.rechercheAdherent.trim();
 
 
     if (!value) {
 
       this.resultatsRecherche = [];
 
-      return;
+      this.rechercheEnCours = false;
 
+      this.loadingAdherents = false;
+
+      return;
     }
 
 
-    this.resultatsRecherche =
-      this.adherents.filter(adherent =>
+    this.rechercheEnCours = true;
 
-        adherent.cin
-          .toLowerCase()
-          .includes(value)
+    this.loadingAdherents = true;
 
-        ||
+    this.erreur = '';
 
-        adherent.matricule
-          .toLowerCase()
-          .includes(value)
 
-      );
+this.adherentService.getAll(
+  '',
+  '',
+  '',
+  0,
+  10
+)
+      .subscribe({
 
+        next: (response) => {
+
+          this.resultatsRecherche =
+            response.content;
+
+          this.rechercheEnCours = false;
+
+          this.loadingAdherents = false;
+        },
+
+
+        error: (error) => {
+
+          console.error(
+            'Erreur recherche adhérent :',
+            error
+          );
+
+          this.resultatsRecherche = [];
+
+          this.rechercheEnCours = false;
+
+          this.loadingAdherents = false;
+
+          this.erreur =
+            'Impossible de rechercher les adhérents.';
+        }
+
+      });
   }
 
 
-  // ==========================================
-  // SELECTION
-  // ==========================================
+  // =====================================================
+  // SELECTION ADHERENT
+  // =====================================================
 
   selectionnerAdherent(
     adherent: Adherent
   ): void {
 
-    this.adherentSelectionne = adherent;
+    this.adherentSelectionne =
+      adherent;
 
 
     this.dossier.adherentId =
       adherent.id;
 
 
+    // IMPORTANT :
+    // Adherent possède nomAr et prenomAr
+    // et non nom / prenom
+
     this.dossier.nomComplet =
-      `${adherent.nom} ${adherent.prenom}`;
+      `${adherent.nomAr} ${adherent.prenomAr}`;
 
-
-    // IMPORTANT
-    // نفس input ديال البحث كيولي فيه الاسم
 
     this.rechercheAdherent =
-      `${adherent.nom} ${adherent.prenom}`;
+      `${adherent.nomAr} ${adherent.prenomAr}`;
 
-
-    // إخفاء النتائج
 
     this.resultatsRecherche = [];
 
+    this.erreur = '';
   }
 
 
-  // ==========================================
+  // =====================================================
   // CHANGER ADHERENT
-  // ==========================================
+  // =====================================================
 
   changerAdherent(): void {
 
@@ -186,56 +206,241 @@ export class NouveauDossier {
 
     this.resultatsRecherche = [];
 
+    this.erreur = '';
+
+    this.succes = '';
   }
 
 
-  // ==========================================
+  // =====================================================
   // ENREGISTRER
-  // ==========================================
+  // =====================================================
 
   enregistrer(): void {
 
+    // -----------------------------------------------
+    // Reset messages
+    // -----------------------------------------------
+
+    this.erreur = '';
+
+    this.succes = '';
+
+
+    // -----------------------------------------------
+    // Vérification adhérent
+    // -----------------------------------------------
+
     if (!this.adherentSelectionne) {
 
-      alert(
-        'Veuillez sélectionner un adhérent.'
-      );
+      this.erreur =
+        'Veuillez sélectionner un adhérent.';
 
       return;
-
     }
 
 
-    if (
-      !this.dossier.dateDeces ||
-      !this.dossier.lieuDeces
-    ) {
+    // -----------------------------------------------
+    // Vérification date
+    // -----------------------------------------------
 
-      alert(
-        'Veuillez renseigner la date et le lieu du décès.'
-      );
+    if (!this.dossier.dateDeces) {
+
+      this.erreur =
+        'Veuillez renseigner la date du décès.';
 
       return;
-
     }
 
 
-    console.log(
-      'Dossier décès:',
-      this.dossier
-    );
+    // -----------------------------------------------
+    // Vérification lieu
+    // -----------------------------------------------
+
+    if (!this.dossier.lieuDeces.trim()) {
+
+      this.erreur =
+        'Veuillez renseigner le lieu du décès.';
+
+      return;
+    }
 
 
-    alert(
-      'Dossier décès enregistré avec succès.'
-    );
+    // -----------------------------------------------
+    // Préparation données
+    // -----------------------------------------------
 
+    const data: DossierDecesCreate = {
+
+      adherentId:
+        this.dossier.adherentId!,
+
+      dateDeces:
+        this.dossier.dateDeces,
+
+      lieuDeces:
+        this.dossier.lieuDeces.trim(),
+
+      natureDeces:
+        this.dossier.natureDeces.trim()
+          || null,
+
+      causeDeces:
+        this.dossier.causeDeces.trim()
+          || null,
+
+      dpr:
+        this.dossier.dpr.trim()
+          || null,
+
+      observation:
+        this.dossier.observation.trim()
+          || null
+    };
+
+
+    // -----------------------------------------------
+    // Loading
+    // -----------------------------------------------
+
+    this.loading = true;
+
+
+    // -----------------------------------------------
+    // Appel API
+    // -----------------------------------------------
+
+    this.decesService
+      .create(data)
+      .subscribe({
+
+        // ===========================================
+        // SUCCESS
+        // ===========================================
+
+        next: (response) => {
+
+          console.log(
+            'Dossier décès créé avec succès :',
+            response
+          );
+
+
+          this.loading = false;
+
+
+          this.succes =
+            `Dossier ${response.numero} créé avec succès.`;
+
+
+          // -----------------------------------------
+          // Navigation
+          // -----------------------------------------
+
+          setTimeout(() => {
+
+            this.router.navigate([
+              '/deces/dossiers'
+            ]);
+
+          }, 1000);
+        },
+
+
+        // ===========================================
+        // ERROR
+        // ===========================================
+
+        error: (error) => {
+
+          console.error(
+            'Erreur création dossier décès :',
+            error
+          );
+
+
+          this.loading = false;
+
+
+          // -----------------------------------------
+          // Backend message
+          // -----------------------------------------
+
+          if (
+            error?.error?.message
+          ) {
+
+            this.erreur =
+              error.error.message;
+
+          }
+
+
+          else if (
+            typeof error?.error === 'string'
+          ) {
+
+            this.erreur =
+              error.error;
+
+          }
+
+
+          else if (
+            error?.status === 0
+          ) {
+
+            this.erreur =
+              'Impossible de contacter le serveur backend. Vérifiez que Spring Boot est démarré.';
+
+          }
+
+
+          else if (
+            error?.status === 400
+          ) {
+
+            this.erreur =
+              'Les données envoyées sont invalides.';
+
+          }
+
+
+          else if (
+            error?.status === 404
+          ) {
+
+            this.erreur =
+              'Adhérent introuvable.';
+
+          }
+
+
+          else if (
+            error?.status === 409
+          ) {
+
+            this.erreur =
+              'Un dossier de décès existe déjà pour cet adhérent.';
+
+          }
+
+
+          else {
+
+            this.erreur =
+              'Une erreur est survenue lors de la création du dossier.';
+          }
+
+        }
+
+      });
   }
 
 
-  // ==========================================
+  // =====================================================
   // ANNULER
-  // ==========================================
+  // =====================================================
 
   annuler(): void {
 
@@ -256,12 +461,25 @@ export class NouveauDossier {
       dpr: '',
 
       observation: ''
-
     };
 
 
-    this.changerAdherent();
+    this.adherentSelectionne = null;
 
+    this.rechercheAdherent = '';
+
+    this.resultatsRecherche = [];
+
+    this.erreur = '';
+
+    this.succes = '';
+
+    this.loading = false;
+
+
+    this.router.navigate([
+      '/deces/dossiers'
+    ]);
   }
 
 }

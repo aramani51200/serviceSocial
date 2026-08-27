@@ -1,6 +1,9 @@
 <div class="page">
 
-  <!-- HEADER -->
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
   <div class="page-header">
 
     <div>
@@ -35,6 +38,7 @@
 
     </div>
 
+
     <button
       type="button"
       class="btn-back"
@@ -47,20 +51,80 @@
   </div>
 
 
-  <!-- FORM -->
+  <!-- =====================================================
+       ALERTES
+  ====================================================== -->
+
+  @if (erreur) {
+
+    <div class="alert alert-error">
+
+      <div class="alert-icon">
+        ⚠
+      </div>
+
+      <div class="alert-content">
+
+        <strong>
+          Erreur
+        </strong>
+
+        <span>
+          {{ erreur }}
+        </span>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  @if (succes) {
+
+    <div class="alert alert-success">
+
+      <div class="alert-icon">
+        ✓
+      </div>
+
+      <div class="alert-content">
+
+        <strong>
+          Succès
+        </strong>
+
+        <span>
+          {{ succes }}
+        </span>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- =====================================================
+       FORMULAIRE
+  ====================================================== -->
+
   <form
     class="form-card"
     (ngSubmit)="enregistrer()">
 
 
-    <!-- ================================================= -->
-    <!-- 01 - ADHERENT -->
-    <!-- ================================================= -->
+    <!-- =================================================
+         01 - ADHERENT
+    ================================================== -->
 
     <div class="form-section">
 
       <div class="section-header">
 
+        <div class="section-number">
+          01
+        </div>
 
         <div>
 
@@ -69,7 +133,7 @@
           </h2>
 
           <p>
-            Rechercher l'adhérent par CIN ou matricule
+            Rechercher l'adhérent par CIN, matricule ou nom
           </p>
 
         </div>
@@ -77,7 +141,7 @@
       </div>
 
 
-      <!-- SEARCH -->
+      <!-- RECHERCHE -->
 
       <div class="form-group">
 
@@ -89,15 +153,19 @@
 
         <div class="search-input-wrapper">
 
+          <div class="search-symbol">
+            🔎
+          </div>
+
           <input
             type="text"
             name="rechercheAdherent"
             [(ngModel)]="rechercheAdherent"
             (input)="rechercherAdherent()"
-            placeholder="CIN ou matricule..."
+            placeholder="CIN, matricule ou nom de l'adhérent..."
             autocomplete="off"
-            required
-          />
+            [disabled]="loading"
+          >
 
 
           @if (adherentSelectionne) {
@@ -105,7 +173,8 @@
             <button
               type="button"
               class="clear-adherent"
-              (click)="changerAdherent()">
+              (click)="changerAdherent()"
+              [disabled]="loading">
 
               ×
 
@@ -114,6 +183,21 @@
           }
 
         </div>
+
+
+        <!-- CHARGEMENT -->
+
+        @if (loadingAdherents) {
+
+          <div class="loading-adherents">
+
+            <span class="spinner"></span>
+
+            Chargement des adhérents...
+
+          </div>
+
+        }
 
 
         <!-- RESULTATS -->
@@ -134,24 +218,45 @@
                 type="button"
                 class="search-result"
                 (click)="selectionnerAdherent(adherent)"
+                [disabled]="loading"
               >
 
-                <span class="result-name">
+                <div class="result-avatar">
 
-                  {{ adherent.nom }}
-                  {{ adherent.prenom }}
+                  {{ adherent.nom.charAt(0) }}
 
-                </span>
+                </div>
 
-                <span class="result-info">
 
-                  CIN: {{ adherent.cin }}
+                <div class="result-content">
 
-                  &nbsp; | &nbsp;
+                  <strong>
 
-                  Matricule: {{ adherent.matricule }}
+                    {{ adherent.nom }}
+                    {{ adherent.prenom }}
 
-                </span>
+                  </strong>
+
+                  <span>
+
+                    CIN :
+                    {{ adherent.cin }}
+
+                    <span class="separator">
+                      |
+                    </span>
+
+                    Matricule :
+                    {{ adherent.matricule }}
+
+                  </span>
+
+                </div>
+
+
+                <div class="result-arrow">
+                  →
+                </div>
 
               </button>
 
@@ -162,15 +267,52 @@
         }
 
 
-        <!-- SELECTED -->
+        <!-- AUCUN RESULTAT -->
+
+        @if (
+          rechercheAdherent &&
+          !adherentSelectionne &&
+          !loadingAdherents &&
+          resultatsRecherche.length === 0
+        ) {
+
+          <div class="no-result">
+
+            <span>
+              🔎
+            </span>
+
+            Aucun adhérent trouvé.
+
+          </div>
+
+        }
+
+
+        <!-- ADHERENT SELECTIONNE -->
 
         @if (adherentSelectionne) {
 
           <div class="selected-adherent">
 
-            ✓
-            {{ adherentSelectionne.nom }}
-            {{ adherentSelectionne.prenom }}
+            <div class="selected-check">
+              ✓
+            </div>
+
+            <div>
+
+              <small>
+                Adhérent sélectionné
+              </small>
+
+              <strong>
+
+                {{ adherentSelectionne.nom }}
+                {{ adherentSelectionne.prenom }}
+
+              </strong>
+
+            </div>
 
           </div>
 
@@ -179,38 +321,68 @@
       </div>
 
 
-      <!-- NOM -->
+      <!-- INFORMATIONS ADHERENT -->
 
-      <div class="form-grid">
+      @if (adherentSelectionne) {
 
-        <div class="form-group">
+        <div class="adherent-info-grid">
 
-          <label>
-            Nom et prénom
-          </label>
+          <div class="info-box">
 
-          <input
-            type="text"
-            name="nomComplet"
-            [(ngModel)]="dossier.nomComplet"
-            readonly
-          >
+            <span>
+              CIN
+            </span>
+
+            <strong>
+              {{ adherentSelectionne.cin }}
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <span>
+              Matricule
+            </span>
+
+            <strong>
+              {{ adherentSelectionne.matricule }}
+            </strong>
+
+          </div>
+
+
+          <div class="info-box">
+
+            <span>
+              Nom complet
+            </span>
+
+            <strong>
+              {{ dossier.nomComplet }}
+            </strong>
+
+          </div>
 
         </div>
 
-      </div>
+      }
 
     </div>
 
 
-
-    <!-- ================================================= -->
-    <!-- 02 - DECES -->
-    <!-- ================================================= -->
+    <!-- =================================================
+         02 - DECES
+    ================================================== -->
 
     <div class="form-section">
 
       <div class="section-header">
+
+        <div class="section-number">
+          02
+        </div>
 
         <div>
 
@@ -346,10 +518,9 @@
     </div>
 
 
-
-    <!-- ================================================= -->
-    <!-- 03 - OBSERVATION -->
-    <!-- ================================================= -->
+    <!-- =================================================
+         03 - OBSERVATION
+    ================================================== -->
 
     <div class="form-section">
 
@@ -392,10 +563,9 @@
     </div>
 
 
-
-    <!-- ================================================= -->
-    <!-- STATUS -->
-    <!-- ================================================= -->
+    <!-- =================================================
+         STATUT INITIAL
+    ================================================== -->
 
     <div class="status-info">
 
@@ -419,17 +589,17 @@
     </div>
 
 
-
-    <!-- ================================================= -->
-    <!-- ACTIONS -->
-    <!-- ================================================= -->
+    <!-- =================================================
+         ACTIONS
+    ================================================== -->
 
     <div class="form-actions">
 
       <button
         type="button"
         class="btn-cancel"
-        (click)="annuler()">
+        (click)="annuler()"
+        [disabled]="loading">
 
         Annuler
 
@@ -438,14 +608,30 @@
 
       <button
         type="submit"
-        class="btn-save">
+        class="btn-save"
+        [disabled]="loading || !adherentSelectionne">
 
-        Enregistrer le dossier
+        @if (loading) {
+
+          <span class="button-loading">
+
+            <span class="spinner spinner-white"></span>
+
+            Enregistrement...
+
+          </span>
+
+        } @else {
+
+          <span>
+            ✓ Enregistrer le dossier
+          </span>
+
+        }
 
       </button>
 
     </div>
-
 
   </form>
 
