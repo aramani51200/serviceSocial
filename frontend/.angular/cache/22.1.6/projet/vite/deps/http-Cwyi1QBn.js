@@ -1,9 +1,9 @@
-import { Bt as computed, Cl as truncateMiddle, Cr as TracingService, Ec as Injector, El as ɵɵdefineInjector, Fn as Injectable, Hc as RuntimeError, Lt as ResourceImpl, Pc as NgZone, Pn as Inject, Tc as InjectionToken, Ti as performanceMarkFeature, Tl as ɵɵdefineInjectable, Ui as setClassMetadata, Vt as encapsulateResourceError, Wc as TransferState, Wt as linkedSignal, Xc as assertInInjectionContext, Yt as APP_BOOTSTRAP_LISTENER, _c as EnvironmentInjector, bl as signal, dc as CSP_NONCE, dr as Service, fl as makeEnvironmentProviders, io as ɵɵdefineService, kl as ɵɵinject, mc as DestroyRef, no as ɵɵdefineNgModule, ol as inject, pc as DOCUMENT, pl as makeStateKey, qn as NgModule, qt as untracked, tl as formatRuntimeError, tn as ApplicationRef, vl as runInInjectionContext, zc as PendingTasks } from "./core-DnJhzkQh.js";
+import { Al as ɵɵinject, Bc as PendingTasks, Bt as computed, Cr as TracingService, Dc as Injector, Dl as ɵɵdefineInjector, Ec as InjectionToken, Ei as performanceMarkFeature, El as ɵɵdefineInjectable, Fc as NgZone, Fn as Injectable, Gc as TransferState, Lt as ResourceImpl, Pn as Inject, Uc as RuntimeError, Vt as encapsulateResourceError, Wi as setClassMetadata, Wt as linkedSignal, Yt as APP_BOOTSTRAP_LISTENER, Zc as assertInInjectionContext, ao as ɵɵdefineService, dr as Service, fc as CSP_NONCE, hc as DestroyRef, mc as DOCUMENT, ml as makeStateKey, nl as formatRuntimeError, pl as makeEnvironmentProviders, qn as NgModule, qt as untracked, ro as ɵɵdefineNgModule, sl as inject, tn as ApplicationRef, vc as EnvironmentInjector, wl as truncateMiddle, xl as signal, yl as runInInjectionContext } from "./core-B3Z81ZDD.js";
 import { Xt as filter, b as switchMap, jn as of, jt as concatMap, ot as finalize, rr as Observable, vn as map } from "./esm5-ChK3bs0s.js";
-import { n as parseCookieValue, o as PlatformLocation, t as XhrFactory } from "./_xhr-chunk-CJykiVqH.js";
+import { n as parseCookieValue, o as PlatformLocation, t as XhrFactory } from "./_xhr-chunk-Cuc5HAG4.js";
 //#region node_modules/@angular/common/fesm2022/_module-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -725,7 +725,10 @@ var FetchBackend = class FetchBackend {
 			const contentType = response.headers.get(CONTENT_TYPE_HEADER) ?? "";
 			const contentLength = response.headers.get("content-length");
 			const contentLengthValue = contentLength !== null ? Number(contentLength) : NaN;
-			if (this.maxResponseSize !== null && Number.isFinite(contentLengthValue) && contentLengthValue > this.maxResponseSize) throwBodyTooLargeError(this.maxResponseSize);
+			if (this.maxResponseSize !== null && Number.isFinite(contentLengthValue) && contentLengthValue > this.maxResponseSize) {
+				await response.body.cancel();
+				throwBodyTooLargeError(this.maxResponseSize);
+			}
 			const chunks = [];
 			const reader = response.body.getReader();
 			let receivedLength = 0;
@@ -1751,7 +1754,7 @@ var HttpClientJsonpModule = class HttpClientJsonpModule {
 //#endregion
 //#region node_modules/@angular/common/fesm2022/http.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */

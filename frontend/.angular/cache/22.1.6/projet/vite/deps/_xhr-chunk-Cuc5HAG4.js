@@ -1,7 +1,7 @@
-import { Fn as Injectable, Tc as InjectionToken, Tl as ɵɵdefineInjectable, Ui as setClassMetadata, dr as Service, io as ɵɵdefineService, kl as ɵɵinject, ol as inject, pc as DOCUMENT } from "./core-DnJhzkQh.js";
+import { Al as ɵɵinject, Ec as InjectionToken, El as ɵɵdefineInjectable, Fn as Injectable, Wi as setClassMetadata, ao as ɵɵdefineService, dr as Service, mc as DOCUMENT, sl as inject } from "./core-B3Z81ZDD.js";
 //#region node_modules/@angular/common/fesm2022/_platform_location-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -121,7 +121,7 @@ var BrowserPlatformLocation = class BrowserPlatformLocation extends PlatformLoca
 //#endregion
 //#region node_modules/@angular/common/fesm2022/_xhr-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */

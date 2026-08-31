@@ -40,7 +40,9 @@ export class Dossiers implements OnInit {
   loading = false;
   errorMessage = '';
 
-  constructor(private dossierService: DossierService) {}
+  constructor(private dossierService: DossierService) {
+     this.chargerDossiers();
+  }
 
   ngOnInit(): void {
     this.chargerDossiers();
@@ -51,10 +53,12 @@ export class Dossiers implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    this.dossierService.list('DECES', undefined, undefined, 0, 100).subscribe({
+    this.dossierService.getAll('DECES', 0).subscribe({
 
       next: (page) => {
-        this.dossiers = page.content.map(this.toViewModel);
+        console.log("àààààààààààààààààààààààààààà");
+        console.log(page);
+        
         this.loading = false;
       },
 
@@ -66,6 +70,23 @@ export class Dossiers implements OnInit {
     });
 
   }
+  //   this.dossierService.list('DECES', undefined, undefined, 0, 100).subscribe({
+
+  //     next: (page) => {
+  //       console.log("ààààààààààààààààààààààààààààà");
+  //       console.log(page);
+  //       this.dossiers = page.content.map(this.toViewModel);
+  //       this.loading = false;
+  //     },
+
+  //     error: () => {
+  //       this.errorMessage = 'Impossible de charger les dossiers. Vérifiez que le serveur est démarré.';
+  //       this.loading = false;
+  //     }
+
+  //   });
+
+  // }
 
   private toViewModel(d: ApiDossier): DossierDeces {
 

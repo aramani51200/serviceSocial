@@ -47,7 +47,7 @@ public class DossierDecesController {
     // GET ALL
     // =====================================================
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<DossierDecesResponse>> findAll() {
 
         return ResponseEntity.ok(

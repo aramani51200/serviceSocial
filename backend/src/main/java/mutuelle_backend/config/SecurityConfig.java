@@ -44,26 +44,7 @@ public class SecurityConfig {
                         )
                 )
 
-                // Exceptions
-                .exceptionHandling(exception ->
-                        exception
-
-                                .authenticationEntryPoint(
-                                        (request, response, authException) ->
-                                                response.sendError(
-                                                        401,
-                                                        "Unauthorized"
-                                                )
-                                )
-
-                                .accessDeniedHandler(
-                                        (request, response, accessDeniedException) ->
-                                                response.sendError(
-                                                        403,
-                                                        "Forbidden"
-                                                )
-                                )
-                )
+          
 
                 // Authorization
                 .authorizeHttpRequests(auth -> auth
@@ -71,7 +52,7 @@ public class SecurityConfig {
                         // Login public
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/auth/login"
+                                "/**"
                         ).permitAll()
 
                         // H2 if needed

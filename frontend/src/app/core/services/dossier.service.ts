@@ -31,11 +31,14 @@ export class DossierService {
       params = params.set('statut', statut);
     }
 
-    return this.http.get<DossierPage>(this.baseUrl(section), { params });
+    return this.http.get<DossierPage>(`${this.baseUrl(section)}/all`, { params });
   }
 
   get(section: string, id: number): Observable<Dossier> {
     return this.http.get<Dossier>(`${this.baseUrl(section)}/${id}`);
+  }
+  getAll(section: string, id: number): Observable<Dossier> {
+    return this.http.get<Dossier>(`${this.baseUrl(section)}/all`);
   }
 
   create(section: string, request: DossierRequest): Observable<Dossier> {

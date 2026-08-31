@@ -1,11 +1,11 @@
-import { $n as Output, Bc as PendingTasksInternal, Bt as computed, Ec as Injector, Ei as provideAppInitializer, El as ɵɵdefineInjector, En as ElementRef, Er as ViewContainerRef, Fn as Injectable, Hc as RuntimeError, In as Input, Io as ɵɵinjectAttribute, Jo as ɵɵlistener, Kc as Version, Mn as IS_HYDRATION_DOM_REUSE_ENABLED, Mr as afterNextRender, Ns as ɵɵsanitizeUrlOrResourceUrl, O as booleanAttribute, Pc as NgZone, Ta as ɵɵcontentQuery, Tc as InjectionToken, Ti as performanceMarkFeature, Tl as ɵɵdefineInjectable, Ui as setClassMetadata, Wt as linkedSignal, X as input, Yn as NgModuleFactory$1, Yo as ɵɵloadQuery, Yt as APP_BOOTSTRAP_LISTENER, _c as EnvironmentInjector, _i as isNgModule, _s as ɵɵqueryRefresh, a as ContentChildren, an as ChangeDetectionStrategy, ao as ɵɵdirectiveInject, bl as signal, ca as ɵɵNgOnChangesFeature, cl as isInjectable, cn as Component, dr as Service, el as effect, eo as ɵɵdefineComponent, et as maybeUnwrapDefaultExport, f as HostAttributeToken, fl as makeEnvironmentProviders, fn as Console, ft as reflectComponentType, gl as provideEnvironmentInitializer, hc as ENVIRONMENT_INITIALIZER, ho as ɵɵelement, io as ɵɵdefineService, ir as Renderer2, ji as publishNonCoreGlobalUtil, jn as IS_ENABLED_BLOCKING_INITIAL_NAVIGATION, kl as ɵɵinject, kn as HostListener, mc as DestroyRef, ml as promiseWithResolvers, nn as Attribute, no as ɵɵdefineNgModule, ol as inject, on as Compiler, pc as DOCUMENT, qn as NgModule, qo as ɵɵinvalidFactory, qr as createEnvironmentInjector, qt as untracked, r as ChangeDetectorRef, tl as formatRuntimeError, tn as ApplicationRef, to as ɵɵdefineDirective, ul as isStandalone, va as ɵɵattribute, vi as isPromise, vl as runInInjectionContext, wc as INTERNAL_APPLICATION_ERROR_HANDLER, wn as Directive, yc as EventEmitter } from "./core-DnJhzkQh.js";
+import { $n as Output, Al as ɵɵinject, Bt as computed, Dc as Injector, Di as provideAppInitializer, Dl as ɵɵdefineInjector, Ea as ɵɵcontentQuery, Ec as InjectionToken, Ei as performanceMarkFeature, El as ɵɵdefineInjectable, En as ElementRef, Er as ViewContainerRef, Fc as NgZone, Fn as Injectable, In as Input, Jo as ɵɵinvalidFactory, Lo as ɵɵinjectAttribute, Mi as publishNonCoreGlobalUtil, Mn as IS_HYDRATION_DOM_REUSE_ENABLED, Mr as afterNextRender, O as booleanAttribute, Ps as ɵɵsanitizeUrlOrResourceUrl, Tc as INTERNAL_APPLICATION_ERROR_HANDLER, Uc as RuntimeError, Vc as PendingTasksInternal, Wi as setClassMetadata, Wt as linkedSignal, X as input, Xo as ɵɵloadQuery, Yn as NgModuleFactory$1, Yo as ɵɵlistener, Yt as APP_BOOTSTRAP_LISTENER, Zc as assertInInjectionContext, _l as provideEnvironmentInitializer, a as ContentChildren, an as ChangeDetectionStrategy, ao as ɵɵdefineService, bc as EventEmitter, cn as Component, dl as isStandalone, dr as Service, et as maybeUnwrapDefaultExport, f as HostAttributeToken, fn as Console, ft as reflectComponentType, gc as ENVIRONMENT_INITIALIZER, go as ɵɵelement, hc as DestroyRef, hl as promiseWithResolvers, ir as Renderer2, jn as IS_ENABLED_BLOCKING_INITIAL_NAVIGATION, kn as HostListener, la as ɵɵNgOnChangesFeature, ll as isInjectable, mc as DOCUMENT, nl as formatRuntimeError, nn as Attribute, no as ɵɵdefineDirective, on as Compiler, oo as ɵɵdirectiveInject, pl as makeEnvironmentProviders, pt as resourceFromSnapshots, qc as Version, qn as NgModule, qr as createEnvironmentInjector, qt as untracked, r as ChangeDetectorRef, ro as ɵɵdefineNgModule, sl as inject, tl as effect, tn as ApplicationRef, to as ɵɵdefineComponent, vc as EnvironmentInjector, vi as isNgModule, vs as ɵɵqueryRefresh, wn as Directive, xl as signal, ya as ɵɵattribute, yi as isPromise, yl as runInInjectionContext } from "./core-B3Z81ZDD.js";
 import { An as throwError, Ct as take, Dn as isObservable, En as EmptyError, In as EMPTY, Lt as catchError, Mn as from, Qn as Subject, Xt as filter, Zn as BehaviorSubject, b as switchMap, dn as concat, et as takeLast, g as takeUntil, hn as combineLatest, ir as pipe, jn as of, jt as concatMap, m as tap, mn as mergeMap, ot as finalize, pn as mergeAll, rr as Observable, rt as first, un as defer, ur as Subscription, vn as map, x as startWith } from "./esm5-ChK3bs0s.js";
-import { a as LOCATION_INITIALIZED, o as PlatformLocation } from "./_xhr-chunk-CJykiVqH.js";
-import { Mt as LocationStrategy, Pt as PathLocationStrategy, jt as Location, k as HashLocationStrategy, l as ViewportScroller, n as NavigationAdapterForLocation, v as PRECOMMIT_HANDLER_SUPPORTED, y as PlatformNavigation } from "./common-wjjHr_it.js";
-import { s as Title } from "./platform-browser-CZueQ3_0.js";
+import { a as LOCATION_INITIALIZED, o as PlatformLocation } from "./_xhr-chunk-Cuc5HAG4.js";
+import { Mt as LocationStrategy, Pt as PathLocationStrategy, jt as Location, k as HashLocationStrategy, l as ViewportScroller, n as NavigationAdapterForLocation, v as PRECOMMIT_HANDLER_SUPPORTED, y as PlatformNavigation } from "./common-kHfkGkKe.js";
+import { s as Title } from "./platform-browser-CWI9ebNO.js";
 //#region node_modules/@angular/router/fesm2022/_router-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -17,7 +17,7 @@ var ParamsAsMap = class {
 		this.params = params || {};
 	}
 	has(name) {
-		return Object.prototype.hasOwnProperty.call(this.params, name);
+		return Object.hasOwn(this.params, name);
 	}
 	get(name) {
 		if (this.has(name)) {
@@ -296,9 +296,7 @@ var DefaultUrlSerializer = class {
 		return new UrlTree(p.parseRootSegment(), p.parseQueryParams(), p.parseFragment());
 	}
 	serialize(tree) {
-		const segment = `/${serializeSegment(tree.root, true)}`;
-		if (segment.startsWith("//")) throw new RuntimeError(4019, (typeof ngDevMode === "undefined" || ngDevMode) && "Cannot serialize a UrlTree that would produce a protocol-relative URL.");
-		return `${segment}${serializeQueryParams(tree.queryParams)}${typeof tree.fragment === `string` ? `#${encodeUriFragment(tree.fragment)}` : ""}`;
+		return `${`/${serializeSegment(tree.root, true)}`}${serializeQueryParams(tree.queryParams)}${typeof tree.fragment === `string` ? `#${encodeUriFragment(tree.fragment)}` : ""}`;
 	}
 };
 var DEFAULT_SERIALIZER = new DefaultUrlSerializer();
@@ -1213,7 +1211,15 @@ var ActivatedRoute = class {
 	queryParams;
 	fragment;
 	data;
+	resources;
 	_localInjector;
+	pending;
+	paramsSignal;
+	queryParamsSignal;
+	paramMapSignal;
+	queryParamMapSignal;
+	fragmentSignal;
+	dataSignal;
 	constructor(urlSubject, paramsSubject, queryParamsSubject, fragmentSubject, dataSubject, outlet, component, futureSnapshot) {
 		this.urlSubject = urlSubject;
 		this.paramsSubject = paramsSubject;
@@ -1258,6 +1264,10 @@ var ActivatedRoute = class {
 	}
 	toString() {
 		return this.snapshot ? this.snapshot.toString() : `Future(${this._futureSnapshot})`;
+	}
+	_setPending(snapshot) {
+		this._futureSnapshot = snapshot;
+		this.pending?.set(true);
 	}
 };
 var DEFAULT_PARAMS_INHERITANCE_STRATEGY = "always";
@@ -1306,6 +1316,7 @@ var ActivatedRouteSnapshot = class {
 	_paramMap;
 	_queryParamMap;
 	_environmentInjector;
+	resources;
 	get title() {
 		return this.data?.[RouteTitleKey];
 	}
@@ -1381,6 +1392,22 @@ function advanceActivatedRoute(route) {
 		route.snapshot = route._futureSnapshot;
 		route.dataSubject.next(route._futureSnapshot.data);
 	}
+}
+function initializeActivatedRoute(route) {
+	if (route.paramsSignal !== void 0) return;
+	const writableRoute = route;
+	const pendingSignal = signal(false, ...ngDevMode ? [{ debugName: "pendingSignal" }] : []);
+	writableRoute.pending = pendingSignal;
+	writableRoute.paramsSignal = computed(() => pendingSignal() || !route.snapshot ? route._futureSnapshot.params : route.snapshot.params, ...ngDevMode ? [{ debugName: "paramsSignal" }] : []);
+	writableRoute.queryParamsSignal = computed(() => pendingSignal() || !route.snapshot ? route._futureSnapshot.queryParams : route.snapshot.queryParams, ...ngDevMode ? [{ debugName: "queryParamsSignal" }] : []);
+	writableRoute.paramMapSignal = computed(() => convertToParamMap(route.paramsSignal()), ...ngDevMode ? [{ debugName: "paramMapSignal" }] : []);
+	writableRoute.queryParamMapSignal = computed(() => convertToParamMap(route.queryParamsSignal()), ...ngDevMode ? [{ debugName: "queryParamMapSignal" }] : []);
+	writableRoute.fragmentSignal = computed(() => pendingSignal() || !route.snapshot ? route._futureSnapshot.fragment : route.snapshot.fragment, ...ngDevMode ? [{ debugName: "fragmentSignal" }] : []);
+	writableRoute.dataSignal = computed(() => pendingSignal() || !route.snapshot ? route._futureSnapshot.data : route.snapshot.data, ...ngDevMode ? [{ debugName: "dataSignal" }] : []);
+	writableRoute._setPending = (snapshot) => {
+		route._futureSnapshot = snapshot;
+		pendingSignal.set(true);
+	};
 }
 function equalParamsAndUrlSegments(a, b) {
 	const equalUrlParams = shallowEqual(a.params, b.params) && equalSegments(a.url, b.url);
@@ -1464,7 +1491,7 @@ var RouterOutlet = class RouterOutlet {
 		this.activated = ref;
 		this._activatedRoute = activatedRoute;
 		this.location.insert(ref.hostView);
-		this.inputBinder?.bindActivatedRouteToOutletComponent(this);
+		this.inputBinder?.bindActivatedRouteToOutletComponent(this, this.location.injector);
 		this.attachEvents.emit(ref.instance);
 	}
 	deactivate() {
@@ -1489,7 +1516,7 @@ var RouterOutlet = class RouterOutlet {
 			environmentInjector
 		});
 		this.changeDetector.markForCheck();
-		this.inputBinder?.bindActivatedRouteToOutletComponent(this);
+		this.inputBinder?.bindActivatedRouteToOutletComponent(this, this.location.injector);
 		this.activateEvents.emit(this.activated.instance);
 	}
 	static ɵfac = function RouterOutlet_Factory(__ngFactoryType__) {
@@ -1568,23 +1595,36 @@ var OutletInjector = class {
 var INPUT_BINDER = new InjectionToken(typeof ngDevMode !== "undefined" && ngDevMode ? "Router Input Binder" : "");
 var RoutedComponentInputBinder = class RoutedComponentInputBinder {
 	options;
+	feature;
 	outletDataSubscriptions = /* @__PURE__ */ new Map();
 	outletSeenKeys = /* @__PURE__ */ new Map();
-	constructor(options) {
+	outletEffects = /* @__PURE__ */ new Map();
+	constructor(options, feature = null) {
 		this.options = options;
+		this.feature = feature;
 		this.options.queryParams ??= true;
 	}
-	bindActivatedRouteToOutletComponent(outlet) {
+	bindActivatedRouteToOutletComponent(outlet, injector) {
 		this.unsubscribeFromRouteData(outlet);
-		this.subscribeToRouteData(outlet);
+		this.subscribeToRouteData(outlet, injector);
 	}
 	unsubscribeFromRouteData(outlet) {
 		this.outletDataSubscriptions.get(outlet)?.unsubscribe();
 		this.outletDataSubscriptions.delete(outlet);
 		this.outletSeenKeys.delete(outlet);
+		this.outletEffects.get(outlet)?.forEach((effect) => effect.destroy());
+		this.outletEffects.delete(outlet);
 	}
-	subscribeToRouteData(outlet) {
+	subscribeToRouteData(outlet, injector) {
 		const { activatedRoute } = outlet;
+		const effects = [];
+		let keysBoundToBlockingResources = [];
+		if (this.feature?.createResourceOutletBindingEffects && outlet.activatedComponentRef) {
+			const { handledKeys, createdEffects } = this.feature.createResourceOutletBindingEffects(outlet.activatedComponentRef, activatedRoute, injector);
+			effects.push(...createdEffects);
+			keysBoundToBlockingResources = handledKeys;
+		}
+		if (effects.length > 0) this.outletEffects.set(outlet, effects);
 		const dataSubscription = combineLatest([
 			this.options.queryParams ? activatedRoute.queryParams : of({}),
 			activatedRoute.params,
@@ -1593,7 +1633,8 @@ var RoutedComponentInputBinder = class RoutedComponentInputBinder {
 			data = {
 				...queryParams,
 				...params,
-				...data
+				...data,
+				...activatedRoute.resources || {}
 			};
 			if (index === 0) return of(data);
 			return Promise.resolve(data);
@@ -1602,8 +1643,8 @@ var RoutedComponentInputBinder = class RoutedComponentInputBinder {
 				this.unsubscribeFromRouteData(outlet);
 				return;
 			}
-			const mirror = reflectComponentType(activatedRoute.component);
-			if (!mirror) {
+			const currentMirror = reflectComponentType(activatedRoute.component);
+			if (!currentMirror) {
 				this.unsubscribeFromRouteData(outlet);
 				return;
 			}
@@ -1614,7 +1655,8 @@ var RoutedComponentInputBinder = class RoutedComponentInputBinder {
 			}
 			for (const key of Object.keys(data)) seenKeys.add(key);
 			const behavior = this.options.unmatchedInputBehavior ?? "alwaysUndefined";
-			for (const { templateName } of mirror.inputs) {
+			for (const { templateName } of currentMirror.inputs) {
+				if (keysBoundToBlockingResources.includes(templateName)) continue;
 				const value = data[templateName];
 				if (value !== void 0 || behavior === "alwaysUndefined" || seenKeys.has(templateName)) outlet.activatedComponentRef.setInput(templateName, value);
 			}
@@ -1630,7 +1672,7 @@ var RoutedComponentInputBinder = class RoutedComponentInputBinder {
 	});
 };
 (() => {
-	(typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RoutedComponentInputBinder, [{ type: Injectable }], () => [{ type: void 0 }], null);
+	(typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RoutedComponentInputBinder, [{ type: Injectable }], () => [{ type: void 0 }, { type: void 0 }], null);
 })();
 var ɵEmptyOutletComponent = class ɵEmptyOutletComponent {
 	static ɵfac = function ɵEmptyOutletComponent_Factory(__ngFactoryType__) {
@@ -1680,19 +1722,20 @@ function createRouterState(routeReuseStrategy, curr, prevState) {
 function createNode(routeReuseStrategy, curr, prevState, newlyCreatedRoutes) {
 	if (prevState && routeReuseStrategy.shouldReuseRoute(curr.value, prevState.value.snapshot)) {
 		const value = prevState.value;
-		value._futureSnapshot = curr.value;
+		value._setPending(curr.value);
 		return new TreeNode(value, createOrReuseChildren(routeReuseStrategy, curr, prevState, newlyCreatedRoutes));
 	} else {
 		if (routeReuseStrategy.shouldAttach(curr.value)) {
 			const detachedRouteHandle = routeReuseStrategy.retrieve(curr.value);
 			if (detachedRouteHandle !== null) {
 				const tree = detachedRouteHandle.route;
-				tree.value._futureSnapshot = curr.value;
+				tree.value._setPending(curr.value);
 				tree.children = curr.children.map((c) => createNode(routeReuseStrategy, c, void 0, newlyCreatedRoutes));
 				return tree;
 			}
 		}
 		const value = createActivatedRoute(curr.value);
+		value._setPending(curr.value);
 		newlyCreatedRoutes.add(value);
 		return new TreeNode(value, curr.children.map((c) => createNode(routeReuseStrategy, c, void 0, newlyCreatedRoutes)));
 	}
@@ -1899,7 +1942,7 @@ function getChildRouteGuards(futureNode, currNode, contexts, futurePath, checks 
 		getRouteGuards(c, prevChildren[c.value.outlet], contexts, futurePath.concat([c.value]), checks);
 		delete prevChildren[c.value.outlet];
 	});
-	Object.entries(prevChildren).forEach(([k, v]) => deactivateRouteAndItsChildren(v, contexts.getContext(k), checks));
+	Object.entries(prevChildren).forEach(([k, v]) => deactivateRouteAndItsChildren(v, contexts.getContext(k), contexts, checks));
 	return checks;
 }
 function getRouteGuards(futureNode, currNode, parentContexts, futurePath, checks = {
@@ -1920,7 +1963,7 @@ function getRouteGuards(futureNode, currNode, parentContexts, futurePath, checks
 		else getChildRouteGuards(futureNode, currNode, parentContexts, futurePath, checks);
 		if (shouldRun && context && context.outlet && context.outlet.isActivated) checks.canDeactivateChecks.push(new CanDeactivate(context.outlet.component, curr));
 	} else {
-		if (curr) deactivateRouteAndItsChildren(currNode, context, checks);
+		if (curr) deactivateRouteAndItsChildren(currNode, context, parentContexts, checks);
 		checks.canActivateChecks.push(new CanActivate(futurePath));
 		if (future.component) getChildRouteGuards(futureNode, null, context ? context.children : null, futurePath, checks);
 		else getChildRouteGuards(futureNode, null, parentContexts, futurePath, checks);
@@ -1937,13 +1980,13 @@ function shouldRunGuardsAndResolvers(curr, future, mode) {
 		default: return !equalParamsAndUrlSegments(curr, future);
 	}
 }
-function deactivateRouteAndItsChildren(route, context, checks) {
+function deactivateRouteAndItsChildren(route, context, parentContexts, checks) {
 	const children = nodeChildrenAsMap(route);
 	const r = route.value;
 	Object.entries(children).forEach(([childName, node]) => {
-		if (!r.component) deactivateRouteAndItsChildren(node, context, checks);
-		else if (context) deactivateRouteAndItsChildren(node, context.children.getContext(childName), checks);
-		else deactivateRouteAndItsChildren(node, null, checks);
+		if (!r.component) deactivateRouteAndItsChildren(node, parentContexts ? parentContexts.getContext(childName) : null, parentContexts, checks);
+		else if (context) deactivateRouteAndItsChildren(node, context.children.getContext(childName), context.children, checks);
+		else deactivateRouteAndItsChildren(node, null, null, checks);
 	});
 	if (!r.component) checks.canDeactivateChecks.push(new CanDeactivate(null, r));
 	else if (context && context.outlet && context.outlet.isActivated) checks.canDeactivateChecks.push(new CanDeactivate(context.outlet.component, r));
@@ -2631,6 +2674,7 @@ function getResolver(injectionToken, futureARS, futureRSS) {
 	const resolver = getTokenOrFunctionIdentity(injectionToken, closestInjector);
 	return wrapIntoObservable(resolver.resolve ? resolver.resolve(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => resolver(futureARS, futureRSS)));
 }
+var ROUTER_RESOURCES_FEATURE = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "Router Resources Feature" : "");
 function switchTap(next) {
 	return switchMap((v) => {
 		const nextResult = next(v);
@@ -2855,7 +2899,6 @@ function createRenderPromise(injector) {
 		afterNextRender({ read: () => setTimeout(resolve) }, { injector });
 	});
 }
-var ACTIVATED_ROUTE_INJECTOR_FEATURE = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "ActivatedRoute injector feature" : "");
 var noop = () => {};
 var NAVIGATION_ERROR_HANDLER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "navigation error handler" : "");
 var NavigationTransitions = class NavigationTransitions {
@@ -2880,7 +2923,7 @@ var NavigationTransitions = class NavigationTransitions {
 	urlHandlingStrategy = inject(UrlHandlingStrategy);
 	createViewTransition = inject(CREATE_VIEW_TRANSITION, { optional: true });
 	navigationErrorHandler = inject(NAVIGATION_ERROR_HANDLER, { optional: true });
-	activatedRouteInjectorFeature = inject(ACTIVATED_ROUTE_INJECTOR_FEATURE, { optional: true });
+	routerResourcesFeature = inject(ROUTER_RESOURCES_FEATURE, { optional: true });
 	navigationId = 0;
 	get hasRequestedNavigation() {
 		return this.navigationId !== 0;
@@ -3062,7 +3105,7 @@ var NavigationTransitions = class NavigationTransitions {
 					return nav;
 				});
 				return of(t);
-			}), this.activatedRouteInjectorFeature?.operator() ?? ((t) => t), switchTap(() => this.afterPreactivation()), switchMap(() => {
+			}), this.routerResourcesFeature?.setupAndRunResources(abortController.signal) ?? ((t) => t), switchTap(() => this.afterPreactivation()), switchMap(() => {
 				const { currentSnapshot, targetSnapshot } = overallTransitionState;
 				const viewTransitionStarted = this.createViewTransition?.(this.environmentInjector, currentSnapshot.root, targetSnapshot.root);
 				return viewTransitionStarted ? from(viewTransitionStarted).pipe(map(() => overallTransitionState)) : of(overallTransitionState);
@@ -3075,6 +3118,7 @@ var NavigationTransitions = class NavigationTransitions {
 				new ActivateRoutes(router.routeReuseStrategy, overallTransitionState.targetRouterState, overallTransitionState.currentRouterState, (evt) => this.events.next(evt), this.inputBindingEnabled).activate(this.rootContexts);
 				t.newlyCreatedRoutes?.clear();
 				if (!shouldContinueNavigation()) return;
+				resetPendingRoutes(t.targetRouterState);
 				completedOrAborted = true;
 				this.currentNavigation.update((nav) => {
 					nav.abort = noop;
@@ -3102,7 +3146,7 @@ var NavigationTransitions = class NavigationTransitions {
 				}
 			}), catchError((e) => {
 				completedOrAborted = true;
-				discardNewActivatedRoutes(overallTransitionState);
+				rollbackState(overallTransitionState);
 				if (this.destroyed) {
 					overallTransitionState.resolve(false);
 					return EMPTY;
@@ -3133,7 +3177,7 @@ var NavigationTransitions = class NavigationTransitions {
 		}));
 	}
 	cancelNavigationTransition(t, reason, code) {
-		discardNewActivatedRoutes(t);
+		rollbackState(t);
 		const navCancel = new NavigationCancel(t.id, this.urlSerializer.serialize(t.extractedUrl), reason, code);
 		this.events.next(navCancel);
 		t.resolve(false);
@@ -3161,9 +3205,20 @@ var NavigationTransitions = class NavigationTransitions {
 function isBrowserTriggeredNavigation(source) {
 	return source !== IMPERATIVE_NAVIGATION;
 }
-function discardNewActivatedRoutes(t) {
-	if (!t.newlyCreatedRoutes) return;
-	for (const r of t.newlyCreatedRoutes) r._localInjector?.destroy();
+function rollbackState(t) {
+	for (const r of t.newlyCreatedRoutes ?? []) {
+		r._localInjector?.destroy();
+		r._localInjector = void 0;
+	}
+	resetPendingRoutes(t.targetRouterState);
+}
+function resetPendingRoutes(targetRouterState) {
+	if (!targetRouterState) return;
+	const traverse = (node) => {
+		node.value.pending?.set(false);
+		node.children.forEach(traverse);
+	};
+	traverse(targetRouterState._root);
 }
 var ROUTE_INJECTOR_CLEANUP = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "RouteInjectorCleanup" : "");
 function routeInjectorCleanup(routeReuseStrategy, routerState, config) {
@@ -3667,7 +3722,7 @@ function validateCommands(commands) {
 //#endregion
 //#region node_modules/@angular/router/fesm2022/_router_module-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -4143,6 +4198,193 @@ function isActiveMatchOptions(options) {
 	const o = options;
 	return !!(o.paths || o.matrixParams || o.queryParams || o.fragment);
 }
+var BLOCKING_SYMBOL = Symbol(typeof ngDevMode === "undefined" || ngDevMode ? "__isBlocking" : "");
+var SOURCE_RESOURCE_SYMBOL = Symbol(typeof ngDevMode === "undefined" || ngDevMode ? "__sourceResource" : "");
+function hasValueOrResolved(res) {
+	const status = res.status();
+	return res.hasValue() || status !== "loading" && status !== "reloading";
+}
+function nonBlocking(res) {
+	res[BLOCKING_SYMBOL] = false;
+	return res;
+}
+function routerResource(source) {
+	ngDevMode && assertInInjectionContext(routerResource);
+	const injector = inject(Injector);
+	const { snapshot: snapshotSignal, frozenSnapshot } = createTransactionalSnapshot(source, injector.get(Router), injector);
+	const res = resourceFromSnapshots(snapshotSignal);
+	res[SOURCE_RESOURCE_SYMBOL] = source;
+	res[BLOCKING_SYMBOL] = source[BLOCKING_SYMBOL] !== false;
+	if (typeof source.reload === "function") res.reload = function() {
+		if (frozenSnapshot() !== null) return false;
+		return source.reload();
+	};
+	else res.reload = () => false;
+	return res;
+}
+function createTransactionalSnapshot(source, router, injector) {
+	const frozenSnapshot = signal(null, ...ngDevMode ? [{ debugName: "frozenSnapshot" }] : []);
+	const isRollbackRecoveryPending = signal(false, ...ngDevMode ? [{ debugName: "isRollbackRecoveryPending" }] : []);
+	const sub = router.events.subscribe((e) => {
+		if (e instanceof NavigationStart) {
+			isRollbackRecoveryPending.set(false);
+			if (frozenSnapshot() === null) frozenSnapshot.set(source.snapshot());
+		} else if (e instanceof NavigationEnd) {
+			frozenSnapshot.set(null);
+			isRollbackRecoveryPending.set(false);
+		} else if (e instanceof NavigationSkipped) {
+			if (frozenSnapshot() !== null) isRollbackRecoveryPending.set(true);
+		} else if (e instanceof NavigationCancel || e instanceof NavigationError) {
+			if (!(e instanceof NavigationError || e instanceof NavigationCancel && e.code !== NavigationCancellationCode.SupersededByNewNavigation && e.code !== NavigationCancellationCode.Redirect)) return;
+			isRollbackRecoveryPending.set(true);
+		}
+	});
+	injector.get(DestroyRef).onDestroy(() => sub.unsubscribe());
+	effect(() => {
+		if (isRollbackRecoveryPending() && hasValueOrResolved(source)) {
+			isRollbackRecoveryPending.set(false);
+			frozenSnapshot.set(null);
+		}
+	}, { injector });
+	return {
+		snapshot: computed(() => frozenSnapshot() ?? source.snapshot()),
+		frozenSnapshot
+	};
+}
+function createResourceOutletBindingEffects(componentRef, route, injector) {
+	const createdEffects = [];
+	const handledKeys = [];
+	const mirror = route.component ? reflectComponentType(route.component) : null;
+	if (!mirror) return {
+		createdEffects,
+		handledKeys
+	};
+	for (const { templateName } of mirror.inputs) {
+		const resource = route.resources?.[templateName];
+		if (!resource || !resource[BLOCKING_SYMBOL]) continue;
+		const effectRef = effect(() => {
+			componentRef.setInput(templateName, resource.value());
+		}, {
+			...ngDevMode ? { debugName: "effectRef" } : {},
+			injector
+		});
+		createdEffects.push(effectRef);
+		handledKeys.push(templateName);
+	}
+	return {
+		createdEffects,
+		handledKeys
+	};
+}
+function setupAndRunResources(abortSignal) {
+	return pipe(switchTap(({ newlyCreatedRoutes, targetRouterState }) => {
+		if (!newlyCreatedRoutes || !targetRouterState || abortSignal.aborted) return;
+		const resourceSetupPromises = [];
+		const blockingResourcePromises = [];
+		const traverse = (stateNode) => {
+			const route = stateNode.value;
+			if (route) {
+				initializeActivatedRoute(route);
+				processRoute(route, newlyCreatedRoutes, resourceSetupPromises, abortSignal, blockingResourcePromises);
+			}
+			for (const childState of stateNode.children) traverse(childState);
+		};
+		traverse(targetRouterState._root);
+		return Promise.all(resourceSetupPromises).then(() => Promise.all(blockingResourcePromises));
+	}));
+}
+function processRoute(route, newlyCreatedRoutes, resourceSetupPromises, abortSignal, blockingResourcePromises) {
+	if (!route.routeConfig?.resources) return;
+	if (newlyCreatedRoutes.has(route)) resourceSetupPromises.push(setupNewRouterResources(route._futureSnapshot, route, abortSignal, blockingResourcePromises));
+	else updateExistingResources(route, blockingResourcePromises, abortSignal);
+}
+async function setupNewRouterResources(snapshot, route, abortSignal, blockingResourcePromises) {
+	const resourcesFn = snapshot?.routeConfig?.resources;
+	const parentInjector = snapshot?._environmentInjector;
+	if (!resourcesFn || !parentInjector) return;
+	let childInjector = route._localInjector;
+	if (!childInjector) {
+		childInjector = createEnvironmentInjector([], parentInjector);
+		route._localInjector = childInjector;
+	}
+	const context = {
+		params: route.paramsSignal,
+		queryParams: route.queryParamsSignal,
+		fragment: route.fragmentSignal,
+		data: route.dataSignal,
+		snapshot: route._futureSnapshot
+	};
+	const resourceResultRaw = runInInjectionContext(childInjector, () => resourcesFn(context));
+	let resourceResult;
+	if (resourceResultRaw instanceof Promise) {
+		resourceResult = await resourceResultRaw;
+		if (abortSignal.aborted) return;
+	} else resourceResult = resourceResultRaw;
+	if (!resourceResult) return;
+	const wrappedResult = {};
+	for (const [key, res] of Object.entries(resourceResult)) {
+		if (typeof ngDevMode === "undefined" || ngDevMode) {
+			if (!res || typeof res !== "object" || typeof res.snapshot !== "function") throw new Error(`Invalid resource returned for key "${key}". Expected a Resource, but got ${res === null ? "null" : typeof res}.`);
+		}
+		wrappedResult[key] = runInInjectionContext(childInjector, () => routerResource(res));
+	}
+	route.resources = route._futureSnapshot.resources = snapshot.resources = wrappedResult;
+	setupBlocking(route, wrappedResult, blockingResourcePromises, abortSignal);
+}
+function updateExistingResources(route, blockingResourcePromises, abortSignal) {
+	const currentResources = route.snapshot?.resources;
+	if (!currentResources) return;
+	Object.values(currentResources).forEach((r) => {
+		const underlyingRes = r[SOURCE_RESOURCE_SYMBOL];
+		if (underlyingRes.status() === "error") underlyingRes.reload?.();
+	});
+	route._futureSnapshot.resources = currentResources;
+	setupBlocking(route, currentResources, blockingResourcePromises, abortSignal);
+}
+function setupBlocking(route, resourceResult, blockingResourcePromises, abortSignal) {
+	if (abortSignal.aborted) return;
+	const childInjector = route._localInjector;
+	if (!childInjector || !resourceResult) return;
+	for (const r of Object.values(resourceResult)) {
+		const res = r;
+		if (res[BLOCKING_SYMBOL] === false) continue;
+		const promise = new Promise((resolve, reject) => {
+			const underlyingRes = res[SOURCE_RESOURCE_SYMBOL];
+			let isDestroyed = false;
+			let unregisterOnDestroy;
+			const cleanup = () => {
+				isDestroyed = true;
+				blockingEffect.destroy();
+				unregisterOnDestroy?.();
+				abortSignal.removeEventListener("abort", onAbort);
+			};
+			const onAbort = () => {
+				cleanup();
+				resolve();
+			};
+			abortSignal.addEventListener("abort", onAbort, { once: true });
+			const blockingEffect = effect(() => {
+				if (isDestroyed) return;
+				if (underlyingRes.status() === "error") {
+					cleanup();
+					reject(underlyingRes.error());
+				} else if (hasValueOrResolved(underlyingRes)) {
+					cleanup();
+					resolve();
+				}
+			}, {
+				...ngDevMode ? { debugName: "blockingEffect" } : {},
+				injector: childInjector,
+				manualCleanup: true
+			});
+			unregisterOnDestroy = childInjector.get(DestroyRef).onDestroy(() => {
+				cleanup();
+				resolve();
+			});
+		});
+		blockingResourcePromises.push(promise);
+	}
+}
 var PreloadingStrategy = class {};
 var PreloadAllModules = class PreloadAllModules {
 	preload(route, fn) {
@@ -4573,25 +4815,6 @@ function handleResultRejections(result) {
 	result.committed?.catch(() => {});
 	return result;
 }
-function setupActivatedRouteInjectors() {
-	return tap(({ newlyCreatedRoutes, targetRouterState }) => {
-		if (!newlyCreatedRoutes || !targetRouterState) return;
-		const traverse = (stateNode) => {
-			const route = stateNode.value;
-			if (route) processRoute(route, newlyCreatedRoutes);
-			for (const childState of stateNode.children) traverse(childState);
-		};
-		traverse(targetRouterState._root);
-	});
-}
-function processRoute(route, newlyCreatedRoutes) {
-	if (!route?.routeConfig?.ɵUseActivatedRouteInjector) return;
-	if (newlyCreatedRoutes.has(route)) setupNewActivatedRouteInjector(route._futureSnapshot, route);
-}
-function setupNewActivatedRouteInjector(snapshot, route) {
-	if (ngDevMode && !!route._localInjector) throw new Error("invalid state: _localInjector should not exist on newly created ActivatedRoute yet");
-	route._localInjector = createEnvironmentInjector([], snapshot._environmentInjector);
-}
 function provideRouter(routes, ...features) {
 	if (typeof ngDevMode === "undefined" || ngDevMode) {
 		publishNonCoreGlobalUtil("ɵgetLoadedRoutes", getLoadedRoutes);
@@ -4767,7 +4990,7 @@ function withExperimentalAutoCleanupInjectors() {
 function withComponentInputBinding(options = {}) {
 	return routerFeature(8, [{
 		provide: INPUT_BINDER,
-		useFactory: () => new RoutedComponentInputBinder(options)
+		useFactory: () => new RoutedComponentInputBinder(options, inject(ROUTER_RESOURCES_FEATURE, { optional: true }))
 	}]);
 }
 function withViewTransitions(options) {
@@ -4783,10 +5006,13 @@ function withViewTransitions(options) {
 		}
 	}]);
 }
-function withActivatedRouteInjectors() {
+function withRouterResources() {
 	return routerFeature(9, [{
-		provide: ACTIVATED_ROUTE_INJECTOR_FEATURE,
-		useValue: { operator: setupActivatedRouteInjectors }
+		provide: ROUTER_RESOURCES_FEATURE,
+		useValue: {
+			setupAndRunResources,
+			createResourceOutletBindingEffects
+		}
 	}]);
 }
 var ROUTER_DIRECTIVES = [
@@ -4933,7 +5159,7 @@ function provideRouterInitializer() {
 //#endregion
 //#region node_modules/@angular/router/fesm2022/router.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -4952,6 +5178,6 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
 	return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = /* @__PURE__ */ new Version("22.1.2");
+var VERSION = /* @__PURE__ */ new Version("22.1.4");
 //#endregion
-export { ActivatedRoute, ActivatedRouteSnapshot, ActivationEnd, ActivationStart, BaseRouteReuseStrategy, ChildActivationEnd, ChildActivationStart, ChildrenOutletContexts, DefaultTitleStrategy, DefaultUrlSerializer, EventType, GuardsCheckEnd, GuardsCheckStart, NavigationCancel, NavigationCancellationCode, NavigationEnd, NavigationError, NavigationSkipped, NavigationSkippedCode, NavigationStart, NoPreloading, OutletContext, PRIMARY_OUTLET, PreloadAllModules, PreloadingStrategy, ROUTER_CONFIGURATION, ROUTER_INITIALIZER, ROUTER_OUTLET_DATA, ROUTES, RedirectCommand, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, RouteReuseStrategy, Router, RouterEvent, RouterLink, RouterLink as RouterLinkWithHref, RouterLinkActive, RouterModule, RouterOutlet, RouterPreloader, RouterState, RouterStateSnapshot, RoutesRecognized, Scroll, TitleStrategy, UrlHandlingStrategy, UrlSegment, UrlSegmentGroup, UrlSerializer, UrlTree, VERSION, convertToParamMap, createUrlTreeFromSnapshot, defaultUrlMatcher, destroyDetachedRouteHandle, isActive, mapToCanActivate, mapToCanActivateChild, mapToCanDeactivate, mapToCanMatch, mapToResolve, provideRouter, withComponentInputBinding, withDebugTracing, withDisabledInitialNavigation, withEnabledBlockingInitialNavigation, withExperimentalAutoCleanupInjectors, withExperimentalPlatformNavigation, withHashLocation, withInMemoryScrolling, withNavigationErrorHandler, withPreloading, withRouterConfig, withViewTransitions, ɵEmptyOutletComponent, ROUTER_PROVIDERS as ɵROUTER_PROVIDERS, afterNextNavigation as ɵafterNextNavigation, loadChildren as ɵloadChildren, withActivatedRouteInjectors as ɵwithActivatedRouteInjectors };
+export { ActivatedRoute, ActivatedRouteSnapshot, ActivationEnd, ActivationStart, BaseRouteReuseStrategy, ChildActivationEnd, ChildActivationStart, ChildrenOutletContexts, DefaultTitleStrategy, DefaultUrlSerializer, EventType, GuardsCheckEnd, GuardsCheckStart, NavigationCancel, NavigationCancellationCode, NavigationEnd, NavigationError, NavigationSkipped, NavigationSkippedCode, NavigationStart, NoPreloading, OutletContext, PRIMARY_OUTLET, PreloadAllModules, PreloadingStrategy, ROUTER_CONFIGURATION, ROUTER_INITIALIZER, ROUTER_OUTLET_DATA, ROUTES, RedirectCommand, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, RouteReuseStrategy, Router, RouterEvent, RouterLink, RouterLink as RouterLinkWithHref, RouterLinkActive, RouterModule, RouterOutlet, RouterPreloader, RouterState, RouterStateSnapshot, RoutesRecognized, Scroll, TitleStrategy, UrlHandlingStrategy, UrlSegment, UrlSegmentGroup, UrlSerializer, UrlTree, VERSION, convertToParamMap, createUrlTreeFromSnapshot, defaultUrlMatcher, destroyDetachedRouteHandle, isActive, mapToCanActivate, mapToCanActivateChild, mapToCanDeactivate, mapToCanMatch, mapToResolve, provideRouter, withComponentInputBinding, withDebugTracing, withDisabledInitialNavigation, withEnabledBlockingInitialNavigation, withExperimentalAutoCleanupInjectors, withExperimentalPlatformNavigation, withHashLocation, withInMemoryScrolling, withNavigationErrorHandler, withPreloading, withRouterConfig, withViewTransitions, ɵEmptyOutletComponent, ROUTER_PROVIDERS as ɵROUTER_PROVIDERS, afterNextNavigation as ɵafterNextNavigation, loadChildren as ɵloadChildren, nonBlocking as ɵnonBlocking, withRouterResources as ɵwithRouterResources };

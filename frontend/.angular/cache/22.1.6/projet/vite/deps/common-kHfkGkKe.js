@@ -1,9 +1,9 @@
-import { Bn as LOCALE_ID, Dn as Host, Do as ɵɵgetInheritedFactory, Ec as Injector, El as ɵɵdefineInjector, En as ElementRef, Er as ViewContainerRef, Fn as Injectable, Hc as RuntimeError, In as Input, Io as ɵɵinjectAttribute, Jr as createNgModule, Kc as Version, Ni as registerLocaleData$1, O as booleanAttribute, Pc as NgZone, Pn as Inject, Qi as unwrapSafeValue, Qn as Optional, Qr as findLocaleData, Rs as ɵɵstyleProp, Sl as stringify, Tc as InjectionToken, Ti as performanceMarkFeature, Tl as ɵɵdefineInjectable, Ui as setClassMetadata, Vn as LocaleDataIndex, Zn as NgModuleRef$1, ao as ɵɵdirectiveInject, bc as IMAGE_CONFIG, ca as ɵɵNgOnChangesFeature, di as getLocalePluralCase$1, dr as Service, er as Pipe, io as ɵɵdefineService, ir as Renderer2, kl as ɵɵinject, ll as isSignal, m as KeyValueDiffers, mc as DestroyRef, mn as DEFAULT_CURRENCY_CODE, nn as Attribute, no as ɵɵdefineNgModule, ol as inject, or as RendererStyleFlags2, p as IterableDiffers, pc as DOCUMENT, qn as NgModule, qt as untracked, r as ChangeDetectorRef, ro as ɵɵdefinePipe, rt as numberAttribute, tl as formatRuntimeError, tn as ApplicationRef, to as ɵɵdefineDirective, ui as getLocaleCurrencyCode$1, vi as isPromise, vr as TemplateRef, wc as INTERNAL_APPLICATION_ERROR_HANDLER, wn as Directive, xc as IMAGE_CONFIG_DEFAULTS, yi as isSubscribable } from "./core-DnJhzkQh.js";
+import { $i as unwrapSafeValue, $r as findLocaleData, Al as ɵɵinject, Bn as LOCALE_ID, Cl as stringify, Dc as Injector, Dl as ɵɵdefineInjector, Dn as Host, Ec as InjectionToken, Ei as performanceMarkFeature, El as ɵɵdefineInjectable, En as ElementRef, Er as ViewContainerRef, Fc as NgZone, Fn as Injectable, In as Input, Jr as createNgModule, Lo as ɵɵinjectAttribute, O as booleanAttribute, Oo as ɵɵgetInheritedFactory, Pi as registerLocaleData$1, Pn as Inject, Qn as Optional, Sc as IMAGE_CONFIG_DEFAULTS, Tc as INTERNAL_APPLICATION_ERROR_HANDLER, Uc as RuntimeError, Vn as LocaleDataIndex, Wi as setClassMetadata, Zn as NgModuleRef$1, ao as ɵɵdefineService, bi as isSubscribable, di as getLocaleCurrencyCode$1, dr as Service, er as Pipe, fi as getLocalePluralCase$1, hc as DestroyRef, io as ɵɵdefinePipe, ir as Renderer2, la as ɵɵNgOnChangesFeature, m as KeyValueDiffers, mc as DOCUMENT, mn as DEFAULT_CURRENCY_CODE, nl as formatRuntimeError, nn as Attribute, no as ɵɵdefineDirective, oo as ɵɵdirectiveInject, or as RendererStyleFlags2, p as IterableDiffers, qc as Version, qn as NgModule, qt as untracked, r as ChangeDetectorRef, ro as ɵɵdefineNgModule, rt as numberAttribute, sl as inject, tn as ApplicationRef, ul as isSignal, vr as TemplateRef, wn as Directive, xc as IMAGE_CONFIG, yi as isPromise, zs as ɵɵstyleProp } from "./core-B3Z81ZDD.js";
 import { Qn as Subject } from "./esm5-ChK3bs0s.js";
-import { o as PlatformLocation } from "./_xhr-chunk-CJykiVqH.js";
+import { o as PlatformLocation } from "./_xhr-chunk-Cuc5HAG4.js";
 //#region node_modules/@angular/common/fesm2022/_location-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -291,7 +291,7 @@ function _stripOrigin(baseHref) {
 //#endregion
 //#region node_modules/@angular/common/fesm2022/_common_module-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -1455,7 +1455,7 @@ var PERCENT_CHAR = "%";
 function formatNumberToLocaleString(value, pattern, locale, groupSymbol, decimalSymbol, digitsInfo, isPercent = false) {
 	let formattedText = "";
 	let isZero = false;
-	if (!isFinite(value)) formattedText = getLocaleNumberSymbol(locale, NumberSymbol.Infinity);
+	if (!isFinite(value)) formattedText = getLocaleNumberSymbol(locale, Number.isNaN(value) ? NumberSymbol.NaN : NumberSymbol.Infinity);
 	else {
 		let parsedNumber = parseNumber(value);
 		if (isPercent) parsedNumber = toPercent(parsedNumber);
@@ -3078,7 +3078,7 @@ var CommonModule = class CommonModule {
 //#endregion
 //#region node_modules/@angular/common/fesm2022/_platform_navigation-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -3107,7 +3107,7 @@ var PlatformNavigation = class PlatformNavigation {
 //#endregion
 //#region node_modules/@angular/common/fesm2022/common.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -3179,7 +3179,7 @@ function isPlatformBrowser(platformId) {
 function isPlatformServer(platformId) {
 	return platformId === PLATFORM_SERVER_ID;
 }
-var VERSION = /* @__PURE__ */ new Version("22.1.2");
+var VERSION = /* @__PURE__ */ new Version("22.1.4");
 var ViewportScroller = class ViewportScroller {
 	static ɵprov = /* @__PURE__ */ ɵɵdefineInjectable({
 		token: ViewportScroller,
@@ -3869,7 +3869,7 @@ var NgOptimizedImage = class NgOptimizedImage {
 		return null;
 	}
 	shouldBlurPlaceholder(placeholderConfig) {
-		if (!placeholderConfig || !placeholderConfig.hasOwnProperty("blur")) return true;
+		if (!placeholderConfig || !Object.hasOwn(placeholderConfig, "blur")) return true;
 		return Boolean(placeholderConfig.blur);
 	}
 	removePlaceholderOnLoad(img) {
@@ -4086,7 +4086,7 @@ function postInitInputChangeError(dir, inputName) {
 }
 function assertNoPostInitInputChange(dir, changes, inputs) {
 	inputs.forEach((input) => {
-		if (changes.hasOwnProperty(input) && !changes[input].isFirstChange()) {
+		if (Object.hasOwn(changes, input) && !changes[input].isFirstChange()) {
 			if (input === "ngSrc") dir = { ngSrc: changes[input].previousValue };
 			throw postInitInputChangeError(dir, input);
 		}

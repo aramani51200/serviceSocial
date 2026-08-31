@@ -1,10 +1,10 @@
-import { Ar as _sanitizeUrl, Br as bypassSanitizationTrustUrl, Cc as INJECTOR_SCOPE, Cr as TracingService, Dr as ViewEncapsulation, El as ɵɵdefineInjector, F as createPlatformFactory, Fn as Injectable, Gi as setDocument, Hc as RuntimeError, Ic as PLATFORM_ID, Ir as bypassSanitizationTrustHtml, Kc as Version, Lc as PLATFORM_INITIALIZER, Lr as bypassSanitizationTrustResourceUrl, Nr as allLeavingAnimations, Pc as NgZone, Pn as Inject, Pr as allowSanitizationBypassAndThrow, Pt as CACHE_ACTIVE, Qi as unwrapSafeValue, Qn as Optional, Rr as bypassSanitizationTrustScript, Tc as InjectionToken, Tl as ɵɵdefineInjectable, Tr as USE_PENDING_TASKS, Uc as SecurityContext, Ui as setClassMetadata, Yc as _global, Yt as APP_BOOTSTRAP_LISTENER, Z as internalCreateApplication, ar as RendererFactory2, br as TestabilityRegistry, bt as withI18nSupport$1, dc as CSP_NONCE, dr as Service, fl as makeEnvironmentProviders, fn as Console, hc as ENVIRONMENT_INITIALIZER, hr as TESTABILITY_GETTER, io as ɵɵdefineService, jn as IS_ENABLED_BLOCKING_INITIAL_NAVIGATION, kl as ɵɵinject, kr as _sanitizeHtml, lc as APP_ID, mr as TESTABILITY, nl as forwardRef, no as ɵɵdefineNgModule, ol as inject, or as RendererStyleFlags2, ot as platformCore, pc as DOCUMENT, qn as NgModule, sr as SHARED_STYLES_HOST, t as ApplicationModule, tl as formatRuntimeError, tn as ApplicationRef, ut as provideStabilityDebugging, vc as ErrorHandler, vt as withDomHydration, xt as withIncrementalHydration$1, yr as Testability, yt as withEventReplay$1, zr as bypassSanitizationTrustStyle } from "./core-DnJhzkQh.js";
-import { c as setRootDomAdapter, i as DomAdapter, n as parseCookieValue, s as getDOM } from "./_xhr-chunk-CJykiVqH.js";
-import { a as PLATFORM_BROWSER_ID, x as CommonModule } from "./common-wjjHr_it.js";
-import { r as withHttpTransferCache } from "./http-BKpocMM7.js";
+import { $i as unwrapSafeValue, Al as ɵɵinject, Ar as _sanitizeUrl, Br as bypassSanitizationTrustUrl, Cr as TracingService, Dl as ɵɵdefineInjector, Dr as ViewEncapsulation, Ec as InjectionToken, El as ɵɵdefineInjectable, F as createPlatformFactory, Fc as NgZone, Fn as Injectable, Ir as bypassSanitizationTrustHtml, Ki as setDocument, Lc as PLATFORM_ID, Lr as bypassSanitizationTrustResourceUrl, Nr as allLeavingAnimations, Pn as Inject, Pr as allowSanitizationBypassAndThrow, Pt as CACHE_ACTIVE, Qn as Optional, Rc as PLATFORM_INITIALIZER, Rr as bypassSanitizationTrustScript, Tr as USE_PENDING_TASKS, Uc as RuntimeError, Wc as SecurityContext, Wi as setClassMetadata, Xc as _global, Xr as describeDomNode, Yt as APP_BOOTSTRAP_LISTENER, Z as internalCreateApplication, ao as ɵɵdefineService, ar as RendererFactory2, br as TestabilityRegistry, bt as withI18nSupport$1, dr as Service, fc as CSP_NONCE, fn as Console, gc as ENVIRONMENT_INITIALIZER, hr as TESTABILITY_GETTER, jn as IS_ENABLED_BLOCKING_INITIAL_NAVIGATION, kr as _sanitizeHtml, mc as DOCUMENT, mr as TESTABILITY, nl as formatRuntimeError, or as RendererStyleFlags2, ot as platformCore, pl as makeEnvironmentProviders, qc as Version, qn as NgModule, rl as forwardRef, ro as ɵɵdefineNgModule, sl as inject, sr as SHARED_STYLES_HOST, t as ApplicationModule, tn as ApplicationRef, uc as APP_ID, ut as provideStabilityDebugging, vt as withDomHydration, wc as INJECTOR_SCOPE, xt as withIncrementalHydration$1, yc as ErrorHandler, yr as Testability, yt as withEventReplay$1, zr as bypassSanitizationTrustStyle } from "./core-B3Z81ZDD.js";
+import { c as setRootDomAdapter, i as DomAdapter, n as parseCookieValue, s as getDOM } from "./_xhr-chunk-Cuc5HAG4.js";
+import { a as PLATFORM_BROWSER_ID, x as CommonModule } from "./common-kHfkGkKe.js";
+import { r as withHttpTransferCache } from "./http-Cwyi1QBn.js";
 //#region node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -427,7 +427,11 @@ var DefaultDomRenderer2 = class {
 		(isTemplateNode(parent) ? parent.content : parent).appendChild(newChild);
 	}
 	insertBefore(parent, newChild, refChild) {
-		if (parent) (isTemplateNode(parent) ? parent.content : parent).insertBefore(newChild, refChild);
+		if (parent) {
+			const targetParent = isTemplateNode(parent) ? parent.content : parent;
+			if (refChild != null && refChild.parentNode !== targetParent) throw new RuntimeError(-5106, ngDevMode && `Angular could not insert a node before ${describeDomNode(refChild)} because it is no longer a child of ${describeDomNode(targetParent)}. This can happen when code outside of Angular's control (for example, a browser extension or a script that directly manipulates the DOM) has moved or removed a node that Angular is still managing.`);
+			targetParent.insertBefore(newChild, refChild);
+		}
 	}
 	removeChild(_parent, oldChild) {
 		oldChild.remove();
@@ -601,7 +605,7 @@ var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRender
 //#endregion
 //#region node_modules/@angular/platform-browser/fesm2022/_browser-chunk.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -953,7 +957,7 @@ var BrowserModule = class BrowserModule {
 //#endregion
 //#region node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
 /**
-* @license Angular v22.1.2
+* @license Angular v22.1.4
 * (c) 2010-2026 Google LLC. https://angular.dev/
 * License: MIT
 */
@@ -979,6 +983,7 @@ var Meta = class Meta {
 		return list ? Array.from(list).filter((elem) => isMetaTag(elem)) : [];
 	}
 	updateTag(tag, selector) {
+		validateMetaDefinition(tag);
 		selector ??= parseSelector(tag);
 		const meta = this.getTag(selector);
 		if (meta) {
@@ -994,6 +999,7 @@ var Meta = class Meta {
 		if (meta) this._dom.remove(meta);
 	}
 	_getOrCreateElement(meta, forceCreation = false) {
+		validateMetaDefinition(meta);
 		if (!forceCreation) {
 			const selector = parseSelector(meta);
 			const elem = this.getTags(selector).filter((elem) => containsAttributes(meta, elem))[0];
@@ -1021,6 +1027,12 @@ function buildMetaSelector(attrSelector) {
 function setMetaElementAttributes(tag, el) {
 	Object.keys(tag).forEach((prop) => el.setAttribute(getMetaKeyMap(prop), tag[prop]));
 }
+function validateMetaDefinition(tag) {
+	for (const prop of Object.keys(tag)) {
+		const attributeName = getMetaKeyMap(prop);
+		if (attributeName.toLowerCase().startsWith("on")) throw new RuntimeError(5203, (typeof ngDevMode === "undefined" || ngDevMode) && `The Meta service does not allow setting event handler attribute '${attributeName}' for security reasons.`);
+	}
+}
 function parseSelector(tag) {
 	const attr = tag.name ? "name" : "property";
 	return `${attr}=${escapeSelectorValue(String(tag[attr]))}`;
@@ -1032,7 +1044,7 @@ function containsAttributes(tag, elem) {
 	return Object.keys(tag).every((key) => elem.getAttribute(getMetaKeyMap(key)) === tag[key]);
 }
 function getMetaKeyMap(prop) {
-	return META_KEYS_MAP[prop] || prop;
+	return Object.hasOwn(META_KEYS_MAP, prop) ? META_KEYS_MAP[prop] : prop;
 }
 function isMetaTag(tag) {
 	return tag?.nodeName.toLowerCase() === "meta";
@@ -1310,6 +1322,6 @@ var DomSanitizerImpl = class DomSanitizerImpl extends DomSanitizer {
 (() => {
 	(typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DomSanitizerImpl, [{ type: Service }], null, null);
 })();
-var VERSION = /* @__PURE__ */ new Version("22.1.2");
+var VERSION = /* @__PURE__ */ new Version("22.1.4");
 //#endregion
 export { EventManagerPlugin as A, createApplication as C, DomRendererFactory2 as D, DomEventsPlugin as E, SharedStylesHost as M, provideCssVarNamespacing as N, EVENT_MANAGER_PLUGINS as O, bootstrapApplication as S, provideProtractorTestingSupport as T, withNoIncrementalHydration as _, HydrationFeatureKind as a, BrowserModule as b, VERSION as c, provideClientHydration as d, withEventReplay as f, withNoHttpTransferCache as g, withIncrementalHydration as h, DomSanitizerImpl as i, REMOVE_STYLES_ON_COMPONENT_DESTROY as j, EventManager as k, disableDebugTools as l, withI18nSupport as m, CssVarNamespacer as n, Meta as o, withHttpTransferCacheOptions as p, DomSanitizer as r, Title as s, By as t, enableDebugTools as u, BrowserDomAdapter as v, platformBrowser as w, KeyEventsPlugin as x, BrowserGetTestability as y };
